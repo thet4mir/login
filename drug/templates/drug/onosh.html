@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h1>Drug</h1>
+
+<table class="table">
+<thead>
+    <tr>
+      <th> Эмчилгээ хийлгэх хоног</th>
+      <th> Өвчтөн </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in emchilgee %}
+      <tr>
+        <td>{{ drug.duration }}</td>
+        <td>{{ drug.costumer }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

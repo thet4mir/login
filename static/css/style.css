@@ -1,0 +1,104 @@
+body{
+  background-color: #e9e9e9;
+}
+#main-header .port-item {
+  width: 30%;
+}
+
+#main-header .port-item:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.bg-black {
+  color: #fff;
+  background: #000;
+}
+
+@media (min-width: 1199px) {
+  .port-item {
+    padding: 3em !important;
+  }
+}
+.orange{
+  background-color: #ff6900;
+}
+.img-circle{
+  height: 150px !important;
+  border-radius: 100% !important;
+}
+.port-item{
+  padding-top: 2em !important;
+  padding-bottom: 2em !important;
+  text-align: center;
+  padding-left: 0.5em !important;
+  padding-right: 0.5em !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fc6600;
+  border-right: 1px dotted #ccc;
+}
+.nav-tabs .nav-item{
+  margin-bottom: -1px;
+  width: 25% !important;
+  vertical-align: middle !important;
+  border-right: 1px dotted #ccc !important;
+}
+.nav-tabs{
+  width: 100% !important;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+  color: #0c60b5 !important;
+  vertical-align: middle !important;
+  border: 0 !important;
+}
+.nav-tabs .nav-link{
+  border: 1px solid transparent;
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fc6600;
+  padding: 0;
+  width:100%;
+  height: 100%;
+  padding: 30px 8px 25px 8px;
+}
+.nav-tabs .nav-link:hover{
+  border:0 !important;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active .tab-number{
+  color: #fff;
+  background: #0c60b5;
+  padding: 10px 15px;
+  border-radius: 100%;
+}
+.nav-tabs .nav-link .tab-number{
+  color: #fff;
+  background: #fc6600;
+  padding: 10px 15px;
+  border-radius: 100%;
+}
+.cosheight{
+  height: 150px !important;
+}
+.endofpage{
+  background: url('/media/endofpage.jpg') !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+.backto{
+  float: right;
+  margin-top: 15px;
+  margin-right: 15px;
+}
+.ta_height{
+  height: 100px !important;
+}
+.nameof{
+  color: #004dd9;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 20px;
+}

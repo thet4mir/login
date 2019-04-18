@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h4>Үзлэгийн түүх харах</h4>
+<table class="table">
+<thead>
+    <tr>
+      <th> Бичсэн огноо</th>
+      <th> Тайлбар </th>
+      <th> Өвчтөн </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in history %}
+      <tr>
+        <td>{{ drug.date }}</td>
+        <td>{{ drug.disc }}</td>
+        <td>{{ drug.costumer }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

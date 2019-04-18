@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h4>Эмчилгээ харах</h4>
+<table class="table">
+<thead>
+    <tr>
+      <th> Эмчилгээ хийлгэх хоног</th>
+      <th> Өвчтөн </th>
+    </tr>
+</thead>
+  <tbody>
+
+  </tbody>
+</table>
+
+<table class="table">
+<thead>
+    <tr>
+      <th> Эмчилгээ хийлгэх хоног</th>
+      <th> Өвчтөн </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in drug_important %}
+        <tr>
+          <td> {{ drug.duration }} </td>
+          <td>{{ drug.costumer }} </td>
+        </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

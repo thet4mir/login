@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h4> Онош нэмэх </h4>
+<form method="post" novalidate>
+    {% csrf_token %}
+    <h4> Онош </h4>
+    <table class="table form-table table-bordered table-sm">
+      <thead class="thead-light text-center">
+        <tr>
+          <th> Бичсэн огноо </th>
+          <th> Тайлбар </th>
+          <th> Өвчтөн </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for form_data in formset1 %}
+          <tr class="{{ formset1.prefix }}">
+              <td>
+                  {{ form_data.date}}
+              </td>
+              <td>
+                  {{ form_data.disc}}
+              </td>
+              <td>
+                  {{ form_data.costumer }}
+              </td>
+              <td>
+                  <button type="button" class="btn btn-danger btn-sm remove-form-row" id="{{ formset1.prefix }}">
+                      <i class="fa fa-trash"></i>
+                  </button>
+              </td>
+          </tr>
+      {% endfor %}
+      <tr>
+          <td colspan="9" style="border-left: none!important; border-right: none !important; border-bottom: none !important;">
+              <button type="button" class="btn btn-sm btn-success add-form-row" id="{{ formset1.prefix }}">
+                 <i class="fa fa-plus"></i>
+              </button>
+          </td>
+      </tr>
+      </tbody>
+    </table>
+    {{ formset1.management_form }}
+    <input class="btn search" type="submit" value="Submit" />
+</form>
+
+{% endblock %}
+
+{% block extra_script %}
+	<script type="text/javascript" src="{% static 'js/formset.js' %}"></script>
+{% endblock%}

@@ -1,0 +1,30 @@
+{% if user.is_authenticated %}
+  <p class="pt-3">Logged in as <strong>{{ user.username }}</strong></p>
+{% endif %}
+
+<table border="1">
+  <thead>
+    <tr>
+      <th> lname </th>
+      <th> fname </th>
+      <th> register </th>
+      <th> gender </th>
+      <th> pos </th>
+      <th> age </th>
+      <th> user </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for worker in object_list %}
+      <tr>
+        <td> {{ worker.lastname }} </td>
+        <td> {{ worker.firstname }} </td>
+        <td> {{ worker.register }} </td>
+        <td> {{ worker.gender }} </td>
+        <td> {{ worker.position }} </td>
+        <td> {{ worker.age }} </td>
+        <td> {{ worker.user }} </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

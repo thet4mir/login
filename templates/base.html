@@ -13,15 +13,96 @@
 	{{ form.media }}
 </head>
 <body>
-  <div class="container">
-  	<div class="main">
-  	    {% block content %}{% endblock %}
-  	</div>
-  </div>
-  {% block extra_script %}{% endblock %}
-  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+{% if user.is_authenticated %}
+	<span>ye</span>
+	{% if user.is_worker %}
+		<div class="title">
+				<i class="logo-design-guide"></i>
+				Сувилагчийн програм
+		</div>
+		<div class="header">
+			<label for="show-menu" class="show-menu">Цэс </label>
+			<input type="checkbox" id="show-menu" role="button">
+			<ul id="menu" class="menu">
+					<li><a href="{% url 'home' %}"> Home </a></li>
+					<li>
+							<a href="#">Эмийн лавлах ￬</a>
+							<ul class="hidden">
+									<li><a href="{% url 'drug:drug_detail_create' %}"> Эм нэмэх </a></li>
+									<li><a href="{% url 'drug:drug_detail_list' %}"> Эмийн жагсаалт </a></li>
+							</ul>
+					</li>
+					<li>
+							<a href="#">Эмчилгээ ￬</a>
+							<ul class="hidden">
+									<li><a href="{% url 'drug:emchilgee_create' %}"> Эмчилгээ нэмэх </a></li>
+									<li><a href="{% url 'drug:emchilgee_list' %}"> Эмчилгээ харах </a></li>
+							</ul>
+					</li>
+					<li class="float-right"><a href="{% url 'account:logout'%}"> Log Out </a></li>
+			</ul>
+		</div>
+	{% endif %}
+	{% if user.is_doctor %}
+	<div class="title">
+			<i class="logo-design-guide"></i>
+			Сувилагчийн програм
+	</div>
+	<div class="header">
+		<label for="show-menu" class="show-menu">Цэс </label>
+		<input type="checkbox" id="show-menu" role="button">
+		<ul id="menu" class="menu">
+				<li><a href="{% url 'home' %}"> Home </a></li>
+				<li>
+						<a href="#">Эмчилгээ ￬</a>
+						<ul class="hidden">
+								<li><a href="{% url 'drug:emchilgee_create' %}"> Эмчилгээ нэмэх </a></li>
+								<li><a href="{% url 'drug:emchilgee_list' %}"> Эмчилгээ харах </a></li>
+						</ul>
+				</li>
+				<li>
+						<a href="#">Үзлэгийн түүх ￬</a>
+						<ul class="hidden">
+								<li><a href="{% url 'drug:history_create' %}"> Түүх нэмэх </a></li>
+								<li><a href="{% url 'drug:history_list' %}"> Түүхийн жагсаалт </a></li>
+						</ul>
+				</li>
+				<li>
+						<a href="#">Онош ￬</a>
+						<ul class="hidden">
+								<li><a href="{% url 'drug:onosh_create' %}"> Онош нэмэх </a></li>
+								<li><a href="{% url 'drug:onosh_list' %}"> Онош жагсаалт </a></li>
+						</ul>
+				</li>
+				<li class="float-right"><a href="{% url 'account:logout'%}"> Log Out </a></li>
+		</ul>
+	</div>
+	{% endif %}
+{% endif %}
+<div class="title">
+		<i class="logo-design-guide"></i>
+		Сувилагчийн програм
+</div>
+<div class="header">
+	<ul id="menu" class="menu">
+			<li><a href="{% url 'home' %}"> Home </a></li>
+			<li class="float-right"><a href="{% url 'account:logout'%}"> Log Out </a></li>
+	</ul>
+</div>
+<div class="container">
+	<div class="main">
+	    {% block content %}
+
+			{% endblock %}
+	</div>
+</div>
+{% block extra_script %}{% endblock %}
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 </body>
 </html>

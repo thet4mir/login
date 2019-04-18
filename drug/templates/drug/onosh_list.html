@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h4>Үзлэгийн түүх харах</h4>
+<table class="table">
+<thead>
+    <tr>
+      <th> Өвчтөн</th>
+      <th> Нэр </th>
+      <th> Тайлбар </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in onosh %}
+      <tr>
+        <td>{{ drug.costumer }}</td>
+        <td>{{ drug.name }}</td>
+        <td>{{ drug.disc }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
