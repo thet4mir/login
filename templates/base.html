@@ -14,7 +14,6 @@
 </head>
 <body>
 {% if user.is_authenticated %}
-	<span>ye</span>
 	{% if user.is_worker %}
 		<div class="title">
 				<i class="logo-design-guide"></i>
@@ -43,7 +42,7 @@
 			</ul>
 		</div>
 	{% endif %}
-	{% if user.is_doctor %}
+	{% if user.costumer %}
 	<div class="title">
 			<i class="logo-design-guide"></i>
 			Сувилагчийн програм
@@ -79,16 +78,6 @@
 	</div>
 	{% endif %}
 {% endif %}
-<div class="title">
-		<i class="logo-design-guide"></i>
-		Сувилагчийн програм
-</div>
-<div class="header">
-	<ul id="menu" class="menu">
-			<li><a href="{% url 'home' %}"> Home </a></li>
-			<li class="float-right"><a href="{% url 'account:logout'%}"> Log Out </a></li>
-	</ul>
-</div>
 <div class="container">
 	<div class="main">
 	    {% block content %}

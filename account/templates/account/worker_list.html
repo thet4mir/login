@@ -1,7 +1,8 @@
-{% if user.is_authenticated %}
-  <p class="pt-3">Logged in as <strong>{{ user.username }}</strong></p>
-{% endif %}
+{% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
+{% block content %}
 <table border="1">
   <thead>
     <tr>
@@ -28,3 +29,4 @@
     {% endfor %}
   </tbody>
 </table>
+{% endblock %}

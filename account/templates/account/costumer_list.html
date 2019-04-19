@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th> lname </th>
+      <th> fname </th>
+      <th> register </th>
+      <th> gender </th>
+      <th> desc </th>
+      <th> age </th>
+      <th> user </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for costumer in object_list %}
+      <tr>
+        <td> {{ costumer.lastname }} </td>
+        <td> {{ costumer.firstname }} </td>
+        <td> {{ costumer.register }} </td>
+        <td> {{ costumer.gender }} </td>
+        <td> {{ costumer.description }} </td>
+        <td> {{ costumer.age }} </td>
+        <td> {{ costumer.user }} </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -38,18 +38,13 @@ class Worker(models.Model):
         return self.firstname
 
 class Costumer(models.Model):
-    GENDER = (
-      (1, 'Эр'),
-      (2, 'Эм'),
-      (3, 'Бусад'),
-    )
     user            = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='costumer')
     firstname       = models.CharField(max_length=200)
     lastname        = models.CharField(max_length=200)
     register        = models.CharField(max_length=200)
     gender          = models.ForeignKey(Gender,on_delete=models.SET_NULL, null=True, blank=True)
-    age             = models.IntegerField()
-    description     = models.TextField()
+    age             = models.IntegerField(null=True, blank=True)
+    description     = models.CharField(max_length=200)
 
     def __str__(self):
         return self.firstname

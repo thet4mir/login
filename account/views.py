@@ -16,4 +16,17 @@ class WorkerCreate(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('account:list')
+        return redirect('account:worker-list')
+
+class CostumerList(ListView):
+    model = Costumer
+
+class CostumerCreate(CreateView):
+    model = User
+    form_class = CostumerForm
+    template_name = 'account/costumer_create.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('account:costumer-list')
