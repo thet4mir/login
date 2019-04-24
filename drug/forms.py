@@ -7,14 +7,14 @@ class OnoshForm(forms.ModelForm):
         model = Onosh
 
         fields = [
-            'costumer',
-            'name',
+            'category',
             'disc',
+            'code',
         ]
         widgets = {
-            'costumer': forms.Select(attrs={'class': 'onosh-fields form-control form-control-sm'}),
-            'name': forms.TextInput(attrs={'class': 'onosh-fields form-control form-control-sm'}),
-            'disc': forms.TextInput(attrs={'class': 'onosh-fields form-control form-control-sm'}),
+            'category': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
+            'disc': forms.Textarea(attrs={'class': 'form-control form-control-sm'}),
+            'code': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
         }
 
 class HistoryForm(forms.ModelForm):
@@ -23,11 +23,13 @@ class HistoryForm(forms.ModelForm):
 
         fields = [
             'costumer',
+            'doctor',
             'date',
             'disc',
         ]
         widgets = {
             'costumer': forms.Select(attrs={'class': 'history-fields form-control form-control-sm'}),
+            'doctor': forms.Select(attrs={'class': 'history-fields form-control form-control-sm'}),
             'date': forms.DateInput(attrs={"type": "date", 'class': 'history-fields form-control form-control-sm'}),
             'disc': forms.TextInput(attrs={'class': 'history-fields form-control form-control-sm'}),
         }
@@ -38,11 +40,15 @@ class Emchilgee_form(forms.ModelForm):
 
         fields = [
             'duration',
+            'worker',
             'costumer',
+            'onosh',
         ]
         widgets = {
             'duration': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
+            'worker': forms.Select(attrs={'class': 'form-control form-control-sm'}),
             'costumer': forms.Select(attrs={'class': 'form-control form-control-sm'}),
+            'onosh': forms.Select(attrs={'class': 'form-control form-control-sm'}),
         }
 
         labels = {
@@ -57,12 +63,10 @@ class Drug_important_form(forms.ModelForm):
         fields = [
             'name',
             'shirheg',
-            'category',
         ]
         widgets = {
             'name': forms.TextInput(attrs={'class': "drug_important-fields form-control form-control-sm"}),
             'shirheg': forms.TextInput(attrs={'class': "drug_important-fields form-control form-control-sm"}),
-            'category': forms.Select(attrs={'class': "drug_important-fields form-control form-control-sm"}),
         }
 
 

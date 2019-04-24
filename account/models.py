@@ -8,7 +8,6 @@ class User(AbstractUser):
 
 class Degree(models.Model):
     name            = models.CharField(max_length=200)
-    date            = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name

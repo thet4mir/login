@@ -10,9 +10,9 @@
     <table class="table form-table table-bordered table-sm">
       <thead class="thead-light text-center">
         <tr>
-          <th> Өвчтөн </th>
+          <th> Оношийн бүлэг </th>
           <th> Оношийн нэр </th>
-          <th> Тайлбар </th>
+          <th> Код </th>
           <th></th>
         </tr>
       </thead>
@@ -20,13 +20,13 @@
       {% for form_data in formset1 %}
           <tr class="{{ formset1.prefix }}">
               <td>
-                  {{ form_data.costumer}}
+                  {{ form_data.category}}
               </td>
               <td>
-                  {{ form_data.name}}
+                  {{ form_data.disc}}
               </td>
               <td>
-                  {{ form_data.disc }}
+                  {{ form_data.code }}
               </td>
               <td>
                   <button type="button" class="btn btn-danger btn-sm remove-form-row" id="{{ formset1.prefix }}">

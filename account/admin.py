@@ -5,3 +5,6 @@ from .models import Degree, Gender, Position, User, Worker, Costumer
 admin.site.register(Gender)
 admin.site.register(Position)
 admin.site.register(User)
+admin.site.register(Worker)
+admin.site.register(Costumer)
+admin.site.register(Degree)

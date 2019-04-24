@@ -10,38 +10,27 @@
     <table class="table form-table table-bordered table-sm">
       <thead class="thead-light text-center">
         <tr>
+          <th> Өвчтөн </th>
           <th> Бичсэн огноо </th>
           <th> Тайлбар </th>
-          <th> Өвчтөн </th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
       {% for form_data in formset1 %}
-          <tr class="{{ formset1.prefix }}">
+          <tr>
               <td>
-                  {{ form_data.date}}
+                  {{ form_data.costumer}}
               </td>
               <td>
-                  {{ form_data.disc}}
+
+                    {{ form_data.doctor }}
+
               </td>
               <td>
-                  {{ form_data.costumer }}
-              </td>
-              <td>
-                  <button type="button" class="btn btn-danger btn-sm remove-form-row" id="{{ formset1.prefix }}">
-                      <i class="fa fa-trash"></i>
-                  </button>
+                  {{ form_data.disc }}
               </td>
           </tr>
       {% endfor %}
-      <tr>
-          <td colspan="9" style="border-left: none!important; border-right: none !important; border-bottom: none !important;">
-              <button type="button" class="btn btn-sm btn-success add-form-row" id="{{ formset1.prefix }}">
-                 <i class="fa fa-plus"></i>
-              </button>
-          </td>
-      </tr>
       </tbody>
     </table>
     {{ formset1.management_form }}
