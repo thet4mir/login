@@ -37,6 +37,9 @@ class Worker(models.Model):
     def __str__(self):
         return self.firstname
 
+    def is_doctor(self):
+        return self.position.name == "Эмч"
+
 class Costumer(models.Model):
     user            = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='costumer')
     firstname       = models.CharField(max_length=200)
