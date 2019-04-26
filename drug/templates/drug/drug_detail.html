@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="col-md-12">
+  <h4> Эм нэмэх </h4>
+  <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-3 mb-0">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+          {{ form.size|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+          {{ form.nairlaga|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+          {{ form.intro|as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+          {{ form.other_side|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+          {{ form.zaavar|as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-2 mb-0">
+          {{ form.age|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-2 mb-0">
+          {{ form.duration|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-2 mb-0">
+          {{ form.date|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-2 mb-0">
+          {{ form.factory|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-2 mb-0">
+          {{ form.price|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-2 mb-0">
+          {{ form.drug_catedory|as_crispy_field }}
+        </div>
+      </div>
+      <input class="btn search" type="submit" value="Submit" />
+  </form>
+</div>
+<div class="col-md-12">
+  <h4> Эмийн жагсаалт </h4>
+  <table class="table">
+    <thead>
+        <tr>
+          <th>Name</th>
+          <th>size</th>
+          <th>nairlaga</th>
+          <th>intro</th>
+          <th>other_side</th>
+          <th>zaavar</th>
+          <th>age</th>
+          <th>duration</th>
+          <th>date</th>
+          <th>factory</th>
+          <th>price</th>
+          <th>drug_catedory</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for drug in drug_detail %}
+        <tr>
+        <td>{{ drug.name }}</td>
+        <td>{{ drug.size }}</td>
+        <td>{{ drug.nairlaga }}</td>
+        <td>{{ drug.intro }}</td>
+        <td>{{ drug.other_side }}</td>
+        <td>{{ drug.zaavar }}</td>
+        <td>{{ drug.age }}</td>
+        <td>{{ drug.duration }}</td>
+        <td>{{ drug.date }}</td>
+        <td>{{ drug.factory }}</td>
+        <td>{{ drug.price }}</td>
+        <td>{{ drug.drug_catedory }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

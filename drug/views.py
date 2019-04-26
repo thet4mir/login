@@ -8,18 +8,18 @@ from .models import Drug_category, Drug_detail, Drug_order, Drug_order_status, D
 from .forms import Drug_detail_create_form, Drug_important_form, Emchilgee_form, OnoshForm, HistoryForm
 
 # Create your views here.
-def drug_detail_list(request, template_name='drug/drug_detail_list.html'):
-    drug_detail = Drug_detail.objects.all()
+def drug_detail(request, template_name='drug/drug_detail.html'):
     data = {}
-    data['drug_detail'] = drug_detail
-    return render(request, template_name, data)
-
-def drug_detail_create(request, template_name='drug/drug_detail_create.html'):
+    drug_detail = Drug_detail.objects.all()
     form = Drug_detail_create_form(request.POST or None)
+
     if form.is_valid():
         form.save()
-        return redirect('drug:drug_detail_list')
-    return render(request, template_name, {'form':form})
+        return redirect('drug:drug_detail')
+
+    data['drug_detail'] = drug_detail
+    data['form'] = form
+    return render(request, template_name, data)
 
 def emchilgee_create(request, template_name='drug/emchilgee_create.html'):
     context = {}
