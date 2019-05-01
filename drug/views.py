@@ -5,7 +5,7 @@ from django.forms import modelformset_factory
 from django.db import transaction, IntegrityError
 from datetime import date
 
-from .models import Drug_category, doctor_review, costumer_review, Drug_detail, Drug_order, Drug_order_status, Drug_important, Emchilgee, Onosh, History, Worker, Costumer
+from .models import Drug_category, Doctor_review, Costumer_review, Drug_detail, Drug_order, Drug_order_status, Drug_important, Emchilgee, Onosh, History, Worker, Costumer
 from .forms import Drug_detail_create_form, Drug_important_form, Emchilgee_form, OnoshForm, HistoryForm
 import pprint
 
@@ -152,12 +152,16 @@ def emchilgee_list_done(request, template_name='drug/emchilgee_list_done.html'):
 
 def all_emchilgee_list(request, template_name='drug/all_emchilgee_list.html'):
     data = {}
+    temp = []
+    today = date.today()
+    doctor_review = Doctor_review.objects.all()
     emchilgee = Emchilgee.objects.all()
+    for item in emchilgee:
+        if item.end_date < today:
+            temp.append(item)
 
-    if request.method == "POST":
-        if request.POST['emchilgee_id']:
-            pprint.pprint(request.POST[id])
-
+    emchilgee = temp
+    data['doctor_review'] = doctor_review
     data['emchilgee'] = emchilgee
 
     return render(request, template_name, data)
@@ -209,51 +213,104 @@ def reviews(request, template_name='drug/reviews.html'):
     data = {}
     temp = []
     today = date.today()
+    doctor_review = Doctor_review.objects.all()
     emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
-    drug_important = Drug_important.objects.all()
     for item in emchilgee:
         if item.end_date < today:
             temp.append(item)
 
     emchilgee = temp
-    data['drug_important'] = drug_important
+    data['doctor_review'] = doctor_review
     data['emchilgee'] = emchilgee
 
     return render(request, template_name, data)
 
 def make_review_1(request, emchilgee_id):
-    doctor_review = doctor_review.save(commit=False)
+    rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
+    if not rsp:
+        doctor_review = Doctor_review()
 
-    doctor_review.emchilgee = emchilgee_id
-    doctor_review.doctor = request.user.worker
-    doctor_review.review = 1
-    emchilgee.save()
-    return redirect('drug:all_emchilgee_list')
+        doctor_review.emchilgee = emchilgee_id
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 1
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
+    else:
+        doctor_review = get_object_or_404(Doctor_review, emchilgee = emchilgee_id)
+
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 1
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
 
 def make_review_2(request, emchilgee_id):
-    emchilgee = get_object_or_404(Emchilgee, id = emchilgee_id)
-    emchilgee.doctor = request.user.worker
-    emchilgee.doctor_review = 2
-    emchilgee.save()
-    return redirect('drug:all_emchilgee_list')
+    rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
+    if not rsp:
+        doctor_review = Doctor_review()
+
+        doctor_review.emchilgee = emchilgee_id
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 2
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
+    else:
+        doctor_review = get_object_or_404(Doctor_review, emchilgee = emchilgee_id)
+
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 2
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
 
 def make_review_3(request, emchilgee_id):
-    emchilgee = get_object_or_404(Emchilgee, id = emchilgee_id)
-    emchilgee.doctor = request.user.worker
-    emchilgee.doctor_review = review
-    emchilgee.save()
-    return redirect('drug:all_emchilgee_list')
+    rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
+    if not rsp:
+        doctor_review = Doctor_review()
+
+        doctor_review.emchilgee = emchilgee_id
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 3
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
+    else:
+        doctor_review = get_object_or_404(Doctor_review, emchilgee = emchilgee_id)
+
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 3
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
 
 def make_review_4(request, emchilgee_id):
-    emchilgee = get_object_or_404(Emchilgee, id = emchilgee_id)
-    emchilgee.doctor = request.user.worker
-    emchilgee.doctor_review = 4
-    emchilgee.save()
-    return redirect('drug:all_emchilgee_list')
+    rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
+    if not rsp:
+        doctor_review = Doctor_review()
+
+        doctor_review.emchilgee = emchilgee_id
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 4
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
+    else:
+        doctor_review = get_object_or_404(Doctor_review, emchilgee = emchilgee_id)
+
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 4
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
 
 def make_review_5(request, emchilgee_id):
-    emchilgee = get_object_or_404(Emchilgee, id = emchilgee_id)
-    emchilgee.doctor = request.user.worker
-    emchilgee.doctor_review = 5
-    emchilgee.save()
-    return redirect('drug:all_emchilgee_list')
+    rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
+    if not rsp:
+        doctor_review = Doctor_review()
+
+        doctor_review.emchilgee = emchilgee_id
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 5
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')
+    else:
+        doctor_review = get_object_or_404(Doctor_review, emchilgee = emchilgee_id)
+
+        doctor_review.doctor = request.user.worker
+        doctor_review.review = 5
+        doctor_review.save()
+        return redirect('drug:all_emchilgee_list')

@@ -25,7 +25,36 @@
             <span class="badge badge-success">Эмчилгээ дууссан.</span>
           </td>
           <td>  </td>
-          <td>  </td>
+          <td>
+            {% for items in doctor_review %}
+              {% if drug.id == items.emchilgee %}
+                <span>
+                  {{ items.doctor }}: <br>
+                  {% if items.review == 1 %}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★</a>
+                    </div>
+                  {% elif items.review == 2%}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★ ★</a>
+                    </div>
+                  {% elif items.review == 3%}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★ ★ ★</a>
+                    </div>
+                  {% elif items.review == 4%}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★ ★ ★ ★</a>
+                    </div>
+                  {% elif items.review == 5 %}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★ ★ ★ ★ ★</a>
+                    </div>
+                  {% endif %}
+                </span>
+              {% endif %}
+            {% endfor %}
+          </td>
         </tr>
       {% endfor %}
   </tbody>

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from account.models import User, Costumer, Worker
 from datetime import date
+from django.shortcuts import render, redirect, get_object_or_404
 import pprint
 # Create your models here.
 class Drug_category(models.Model):
@@ -51,6 +52,10 @@ class Emchilgee(models.Model):
     def is_done(self):
         return self.end_date < date.today()
 
+    def has_review(self):
+         rsp = get_object_or_404(Doctor_review, emchilgee = self.id)
+         return rsp
+
 class History(models.Model):
     costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
     doctor = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True, blank=True)
@@ -85,12 +90,12 @@ class Drug_order(models.Model):
 
     def __str__(self):
         return self.date
-class doctor_review(models.Model):
-    emchilgee = models.ForeignKey(Emchilgee, on_delete=models.SET_NULL, null=True, blank=True)
+class Doctor_review(models.Model):
+    emchilgee = models.IntegerField(default=0)
     doctor = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True, blank=True)
     review = models.IntegerField(default=1)
 
-class costumer_review(models.Model):
+class Costumer_review(models.Model):
     emchilgee = models.ForeignKey(Emchilgee, on_delete=models.SET_NULL, null=True, blank=True)
     costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
     review = models.IntegerField(default=1)

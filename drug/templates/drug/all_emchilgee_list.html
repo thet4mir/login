@@ -38,46 +38,52 @@
             {% endif %}
           </td>
           <td>
+            {% for items in doctor_review %}
+              {% if drug.id == items.emchilgee %}
+                <span>
+                  {% if items.review == 1 %}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★</a>
+                    </div>
+                  {% elif items.review == 2%}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★ ★</a>
+                    </div>
+                  {% elif items.review == 3%}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★ ★ ★</a>
+                    </div>
+                  {% elif items.review == 4%}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★ ★ ★ ★</a>
+                    </div>
+                  {% elif items.review == 5 %}
+                    <div class="form-check form-check-inline">
+                      <a href="#" class="btn btn-info btn-lg">★ ★ ★ ★ ★</a>
+                    </div>
+                  {% endif %}
+                </span>
+              {% endif %}
+            {% endfor %}
           </td>
         </tr>
         <tr>
           <td colspan="2"> Эмчийн үнэлгээ </td>
           <td colspan="5">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="review" id="review1" value="1" checked>
-              <label class="form-check-label" for="review1">
-                <a href="{% url 'drug:make_review_1' drug.id %}">★</a>
-              </label>
+              <a href="{% url 'drug:make_review_1' drug.id %}" class="btn btn-info btn-lg">★</a>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="review" id="review1" value="1" disabled>
-              <label class="form-check-label" for="review1">
-                <a href="{% url 'drug:make_review_1' drug.id %}">★</a>
-              </label>
+              <a href="{% url 'drug:make_review_2' drug.id %}" class="btn btn-info btn-lg">★ ★</a>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="review" id="review2" value="2" disabled>
-              <label class="form-check-label" for="review2">
-                <a href="{% url 'drug:make_review_2' drug.id %}">★★</a>
-              </label>
+              <a href="{% url 'drug:make_review_3' drug.id %}" class="btn btn-info btn-lg">★ ★ ★</a>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="review" id="review3" value="3" disabled>
-              <label class="form-check-label" for="review3">
-                <a href="{% url 'drug:make_review_3' drug.id %}">★★★</a>
-              </label>
+              <a href="{% url 'drug:make_review_4' drug.id %}" class="btn btn-info btn-lg">★ ★ ★ ★</a>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="review" id="review4" value="4" disabled>
-              <label class="form-check-label" for="review4">
-                <a href="{% url 'drug:make_review_4' drug.id %}">★★★★</a>
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="review" id="review5" value="5" disabled>
-              <label class="form-check-label" for="review5">
-                <a href="{% url 'drug:make_review_5' drug.id %}">★★★★★</a>
-              </label>
+              <a href="{% url 'drug:make_review_5' drug.id %}" class="btn btn-info btn-lg">★ ★ ★ ★ ★</a>
             </div>
           </td>
         </tr>
