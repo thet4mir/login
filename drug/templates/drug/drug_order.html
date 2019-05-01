@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h4>Эмийн захиалга</h4>
+<form class="" method="POST">
+  {% csrf_token %}
+  <input class="btn search" type="submit" value="Захиалга хийх" />
+</form>
+<table class="table">
+<thead>
+    <tr>
+      <th> Нэр </th>
+      <th> Тоо ширхэг</th>
+      <th> Захиалга хийсэн сувилагч </th>
+      <th> Захиалсан огноо </th>
+      <th> Хүлээн авсан огноо </th>
+      <th> Төлөв </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in not_ordered %}
+        <tr>
+          <td>{{ drug.name }}</td>
+          <td>{{ drug.shirheg }}</td>
+          <td>  </td>
+          <td>  </td>
+          <td>  </td>
+          <td>
+            <span class="badge badge-danger">Захиалга хийгдээгүй.</span>
+          </td>
+        </tr>
+      {% endfor %}
+  </tbody>
+</table>
+<h5> Захиалга хийгдсэн эмийн жагсаалт </h5>
+<table class="table">
+<thead>
+    <tr>
+      <th> Нэр </th>
+      <th> Тоо ширхэг</th>
+      <th> Захиалга хийсэн сувилагч </th>
+      <th> Захиалсан огноо </th>
+      <th> Хүлээн авсан огноо </th>
+      <th> Төлөв </th>
+      <th> Хүлээн авах </th>
+    </tr>
+</thead>
+  <tbody>
+        {% for items in ordered_order %}
+          <tr>
+            <td>{{ items.name }}</td>
+            <td>{{ items.number }}</td>
+            <td>{{ items.nurse }}</td>
+            <td>{{ items.ordered_date }}</td>
+            <td>{{ items.recived_date }}</td>
+            <td>
+              {% if items.recived_date == None %}
+                <span class="badge badge-warning"> Захиалга хийгдсэн.</span>
+              {% else %}
+                <span class="badge badge-success"> Хүлээн авсан.</span>
+              {% endif %}
+            </td>
+            <td> <a href="{% url 'drug:add_recived_date' items.id %}"> Хүлээн авсан. </a> </td>
+          </tr>
+          {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

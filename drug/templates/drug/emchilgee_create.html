@@ -6,15 +6,32 @@
 <h4> Эмчилгээ нэмэх </h4>
 <form method="post" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
-
+    <div class="form-row">
+      <div class="form-group col-md-4 mb-0">
+        {{ form.start_date|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-4 mb-0">
+        {{ form.end_date|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-4 mb-0">
+        {{ form.worker|as_crispy_field }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6 mb-0">
+        {{ form.costumer|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-6 mb-0">
+        {{ form.onosh|as_crispy_field }}
+      </div>
+    </div>
+    <span> {{ nurse }} </span>
     <h4> Шаардлагатай эм </h4>
     <table class="table form-table table-bordered table-sm">
       <thead class="thead-light text-center">
         <tr>
           <th> Нэр </th>
           <th> Ширхэг </th>
-          <th> Төрөл </th>
           <th></th>
         </tr>
       </thead>
@@ -26,12 +43,6 @@
               </td>
               <td>
                   {{ form_data.shirheg }}
-              </td>
-              <td>
-                  {{ form_data.category }}
-              </td>
-              <td>
-                  {{ form_data.phonenumber }}
               </td>
               <td>
                   <button type="button" class="btn btn-danger btn-sm remove-form-row" id="{{ formset1.prefix }}">
@@ -53,6 +64,30 @@
     <input class="btn search" type="submit" value="Submit" />
 </form>
 
+<h4>Эмчилгээ харах</h4>
+<table class="table">
+<thead>
+    <tr>
+      <th> эхлэх огноо</th>
+      <th> Дуусах онгоо </th>
+      <th> Сувилагч </th>
+      <th> Өвчтөн </th>
+      <th> Онош </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in emchilgee %}
+      <tr>
+        <td> <a href='#'> {{ drug.id }} </a></td>
+        <td>{{ drug.start_date }}</td>
+        <td>{{ drug.end_date }}</td>
+        <td>{{ drug.worker }}</td>
+        <td>{{ drug.costumer }}</td>
+        <td>{{ drug.onosh }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
 
 {% block extra_script %}

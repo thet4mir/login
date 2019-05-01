@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h4>Эмчилгээ харах</h4>
+<table class="table">
+<thead>
+    <tr>
+      <th> Сувилагч </th>
+      <th> Өвчтөн </th>
+      <th> Онош </th>
+      <th> Төлөв </th>
+      <th> Өвчтөний үнэлгээ </th>
+      <th> Эмчийн үнэлгээ </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in emchilgee %}
+        <tr>
+          <td>{{ drug.worker }}</td>
+          <td>{{ drug.costumer }}</td>
+          <td>{{ drug.onosh }}</td>
+          <td>
+            <span class="badge badge-success">Эмчилгээ дууссан.</span>
+          </td>
+          <td>  </td>
+          <td>  </td>
+        </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

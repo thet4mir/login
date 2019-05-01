@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h4>Эмчилгээ харах</h4>
+<table class="table">
+<thead>
+    <tr>
+      <th> ID </th>
+      <th> Сувилагч </th>
+      <th> эхлэх огноо</th>
+      <th> Дуусах онгоо </th>
+      <th> Өвчтөн </th>
+      <th> Онош </th>
+      <th> Төлөв </th>
+      <td> Үнэлгээ</td>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in emchilgee %}
+        <tr>
+          <td> <a href='#'> {{ drug.id }} </a></td>
+          <td>{{ drug.worker }}</td>
+          <td>{{ drug.start_date }}</td>
+          <td>{{ drug.end_date }}</td>
+          <td>{{ drug.costumer }}</td>
+          <td>{{ drug.onosh }}</td>
+          <td>
+            {% if drug.is_started %}
+              {% if drug.is_done %}
+                <span class="badge badge-success">Эмчилгээ дууссан.</span>
+              {% else %}
+                <span class="badge badge-warning">Эмчилгээ хийгдэж байгаа.</span>
+              {% endif %}
+            {% else %}
+              <span class="badge badge-danger">Эмчилгээ эхлээгүй.</span>
+            {% endif %}
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"> Эмчийн үнэлгээ </td>
+          <td colspan="5">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="review" id="review1" value="1" checked>
+              <label class="form-check-label" for="review1">
+                <a href="{% url 'drug:make_review_1' drug.id %}">★</a>
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="review" id="review1" value="1" disabled>
+              <label class="form-check-label" for="review1">
+                <a href="{% url 'drug:make_review_1' drug.id %}">★</a>
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="review" id="review2" value="2" disabled>
+              <label class="form-check-label" for="review2">
+                <a href="{% url 'drug:make_review_2' drug.id %}">★★</a>
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="review" id="review3" value="3" disabled>
+              <label class="form-check-label" for="review3">
+                <a href="{% url 'drug:make_review_3' drug.id %}">★★★</a>
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="review" id="review4" value="4" disabled>
+              <label class="form-check-label" for="review4">
+                <a href="{% url 'drug:make_review_4' drug.id %}">★★★★</a>
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="review" id="review5" value="5" disabled>
+              <label class="form-check-label" for="review5">
+                <a href="{% url 'drug:make_review_5' drug.id %}">★★★★★</a>
+              </label>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

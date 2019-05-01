@@ -1,6 +1,6 @@
 from django import forms
 from .models import Drug_detail, Emchilgee, Drug_important, Onosh, History
-from account.models import User
+from account.models import User, Worker, Costumer
 
 class OnoshForm(forms.ModelForm):
     class Meta:
@@ -35,26 +35,27 @@ class HistoryForm(forms.ModelForm):
         }
 
 class Emchilgee_form(forms.ModelForm):
+
+    worker = forms.ModelChoiceField(queryset=Worker.objects.filter(position__name = "Сувилагч"))
+
     class Meta:
         model = Emchilgee
 
         fields = [
-            'duration',
+            'start_date',
+            'end_date',
             'worker',
             'costumer',
             'onosh',
         ]
         widgets = {
-            'duration': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
+            'start_date': forms.DateInput(attrs={"type": "date", 'class': 'form-control form-control-sm'}),
+            'end_date': forms.DateInput(attrs={"type": "date", 'class': 'form-control form-control-sm'}),
             'worker': forms.Select(attrs={'class': 'form-control form-control-sm'}),
             'costumer': forms.Select(attrs={'class': 'form-control form-control-sm'}),
             'onosh': forms.Select(attrs={'class': 'form-control form-control-sm'}),
         }
 
-        labels = {
-            'duration': ('Эмчилгээ хийлгэх хоног'),
-            'costumer': ('Өвчтөн'),
-        }
 
 class Drug_important_form(forms.ModelForm):
     class Meta:
@@ -65,7 +66,7 @@ class Drug_important_form(forms.ModelForm):
             'shirheg',
         ]
         widgets = {
-            'name': forms.TextInput(attrs={'class': "drug_important-fields form-control form-control-sm"}),
+            'name': forms.Select(attrs={'class': "drug_important-fields form-control form-control-sm"}),
             'shirheg': forms.TextInput(attrs={'class': "drug_important-fields form-control form-control-sm"}),
         }
 

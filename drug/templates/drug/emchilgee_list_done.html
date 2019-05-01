@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h4>Эмчилгээ харах</h4>
+<table class="table">
+<thead>
+    <tr>
+      <th> ID </th>
+      <th> Сувилагч </th>
+      <th> эхлэх огноо</th>
+      <th> Дуусах онгоо </th>
+      <th> Өвчтөн </th>
+      <th> Онош </th>
+      <th> Төлөв </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in emchilgee %}
+        <tr>
+          <td> <a href='#'> {{ drug.id }} </a></td>
+          <td>{{ drug.worker }}</td>
+          <td>{{ drug.start_date }}</td>
+          <td>{{ drug.end_date }}</td>
+          <td>{{ drug.costumer }}</td>
+          <td>{{ drug.onosh }}</td>
+          <td>
+              <span class="badge badge-success">Эмчилгээ дууссан.</span>
+          </td>
+        </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

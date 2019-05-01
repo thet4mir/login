@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import pprint
 # Create your models here.
 
 class User(AbstractUser):
@@ -23,7 +24,12 @@ class Gender(models.Model):
     def __str__(self):
         return self.name
 
+class WorkerManager(models.Manager):
+    def is_doctor(self):
+        return super(WorkerManager, self).get_queryset().filter(position__name ="Сувилагч")
+
 class Worker(models.Model):
+
     user            = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='worker')
     firstname       = models.CharField(max_length=200)
     lastname        = models.CharField(max_length=200)
@@ -38,7 +44,9 @@ class Worker(models.Model):
 
     def is_doctor(self):
         return self.position.name == "Эмч"
-
+    def is_nurse(self):
+        rsp = Worker.objects.filter(position = "Сувилагч")
+        return rsp
 class Costumer(models.Model):
     user            = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='costumer')
     firstname       = models.CharField(max_length=200)

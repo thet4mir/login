@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from account.models import User, Costumer, Worker
-
+from datetime import date
+import pprint
 # Create your models here.
 class Drug_category(models.Model):
     name = models.CharField(max_length=100)
@@ -32,16 +33,23 @@ class Onosh(models.Model):
     code = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.disc
 
 class Emchilgee(models.Model):
-    duration = models.CharField(max_length=50)
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(default=timezone.now)
     worker = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True, blank=True)
     costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
     onosh = models.ForeignKey(Onosh, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.worker
+
+    def is_started(self):
+        return self.start_date <= date.today()
+
+    def is_done(self):
+        return self.end_date < date.today()
 
 class History(models.Model):
     costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -55,11 +63,11 @@ class History(models.Model):
 class Drug_important(models.Model):
     emchilgee = models.ForeignKey(Emchilgee, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.ForeignKey(Drug_detail, on_delete=models.SET_NULL, null=True, blank=True)
-    shirheg = models.CharField(max_length=50, null=True, blank=True)
-    is_ordered = models.BooleanField('order_status', default=False)
+    shirheg = models.IntegerField(default=0)
+    is_ordered = models.BooleanField('ordered_status', default=False)
 
     def __str__(self):
-        return self.name
+        return self.name.name
 
 class Drug_order_status(models.Model):
     name = models.CharField(max_length=100)
@@ -69,11 +77,20 @@ class Drug_order_status(models.Model):
         return self.name
 
 class Drug_order(models.Model):
-    date = models.DateField(default=timezone.now)
-    number = models.IntegerField()
+    name = models.ForeignKey(Drug_detail, on_delete=models.SET_NULL, null=True, blank=True)
+    number = models.IntegerField(default=0)
+    ordered_date = models.DateField(default=timezone.now)
     recived_date = models.DateField(null=True, blank=True)
     nurse = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True, blank=True)
-    drug_order_status = models.ForeignKey(Drug_order_status, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.date
+class doctor_review(models.Model):
+    emchilgee = models.ForeignKey(Emchilgee, on_delete=models.SET_NULL, null=True, blank=True)
+    doctor = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True, blank=True)
+    review = models.IntegerField(default=1)
+
+class costumer_review(models.Model):
+    emchilgee = models.ForeignKey(Emchilgee, on_delete=models.SET_NULL, null=True, blank=True)
+    costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
+    review = models.IntegerField(default=1)

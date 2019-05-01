@@ -2,45 +2,75 @@
 {% load bootstrap3 %}
 
 {% block content %}
-<div class="col-md-4">
-    <h4> Ерөнхий мэдээлэл </h4>
-    <table class="list hoverable">
-      <tbody>
-        {% for data in user %}
-          <tr>
-            <td> <b>Овог:</b> </td>
-            <td> {{data.firstname}} </td>
-          </tr>
-          <tr>
-            <td><b> Нэр: </b></td>
-            <td> {{data.lastname}} </td>
-          </tr>
-          <tr>
-            <td><b> Регистр №: </b></td>
-            <td> {{data.register}} </td>
-          </tr>
-          <tr>
-            <td><b> Хүйс: </b></td>
-            <td> {{data.gender}} </td>
-          </tr>
-          <tr>
-            <td><b> Нас: </b></td>
-            <td> {{data.age}} </td>
-          </tr>
-          <tr>
-            <td><b> Зэрэг: </b></td>
-            <td> {{data.degree}} </td>
-          </tr>
-          <tr>
-            <td><b> Албан тушаал: </b></td>
-            <td> {{data.position}} </td>
-          </tr>
-        {% endfor%}
+<div class="row">
+  <div class="col-md-4">
+      <h4> Ерөнхий мэдээлэл </h4>
+      <table class="list hoverable">
+        <tbody>
+          {% for data in user %}
+            <tr>
+              <td> <b>Овог:</b> </td>
+              <td> {{data.lastname}} </td>
+            </tr>
+            <tr>
+              <td><b> Нэр: </b></td>
+              <td> {{data.firstname}} </td>
+            </tr>
+            <tr>
+              <td><b> Регистр №: </b></td>
+              <td> {{data.register}} </td>
+            </tr>
+            <tr>
+              <td><b> Хүйс: </b></td>
+              <td> {{data.gender}} </td>
+            </tr>
+            <tr>
+              <td><b> Нас: </b></td>
+              <td> {{data.age}} </td>
+            </tr>
+            {% if request.user.is_worker %}
+              <tr>
+                <td><b> Зэрэг: </b></td>
+                <td> {{data.degree}} </td>
+              </tr>
+              <tr>
+                <td><b> Албан тушаал: </b></td>
+                <td> {{data.position}} </td>
+              </tr>
+            {% else %}
+            <tr>
+              <td><b> Нэмэлт мэдээлэл: </b></td>
+              <td> {{data.description}} </td>
+            </tr>
+            {% endif %}
+          {% endfor%}
 
-      </tbody>
-    </table>
-</div>
-<div class="col-md-8">
-
+        </tbody>
+      </table>
+  </div>
+  <div class="col-md-8">
+    {% for items in emchilgee %}
+      <div class="card bg-light col-md-10 my-3">
+        <div class="card-body text-left">
+          <p><b> Эмчлэгч  Сувилагч: </b> {{ items.worker }} </p>
+          <p><b> Эмчлүүлэгч: </b> {{ items.costumer }}</p>
+          <p><b> Эхлэх огноо: </b> {{ items.start_date }} <b> Дуусах огноо: </b> {{ items.end_date }}</p>
+          <p><b> Үндсэн онош: </b> {{ items.onosh }}</p>
+          <div class="">
+            <b> Төлөв: </b>
+            {% if items.is_started %}
+              {% if items.is_done %}
+                <span class="badge badge-success">Эмчилгээ дууссан.</span>
+              {% else %}
+                <span class="badge badge-warning">Эмчилгээ хийгдэж байгаа.</span>
+              {% endif %}
+            {% else %}
+              <span class="badge badge-danger">Эмчилгээ эхлээгүй.</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

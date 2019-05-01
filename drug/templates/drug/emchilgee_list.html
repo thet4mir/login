@@ -1,21 +1,38 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load bootstrap3 %}
 
 {% block content %}
 <h4>Эмчилгээ харах</h4>
 <table class="table">
 <thead>
     <tr>
-      <th> Эмчилгээ хийлгэх хоног</th>
+      <th> ID </th>
+      <th> Сувилагч </th>
+      <th> эхлэх огноо</th>
+      <th> Дуусах онгоо </th>
       <th> Өвчтөн </th>
+      <th> Онош </th>
+      <th> Төлөв </th>
     </tr>
 </thead>
   <tbody>
       {% for drug in emchilgee %}
-      <tr>
-        <td> <a href='{% url "drug:emchilgee_details" id=drug.costumer.id  %}'> {{ drug.duration }} </a></td>
-        <td>{{ drug.costumer }}</td>
-      </tr>
+        <tr>
+          <td> <a href='#'> {{ drug.id }} </a></td>
+          <td>{{ drug.worker }}</td>
+          <td>{{ drug.start_date }}</td>
+          <td>{{ drug.end_date }}</td>
+          <td>{{ drug.costumer }}</td>
+          <td>{{ drug.onosh }}</td>
+          <td>
+            {% if drug.is_started %}
+              <h5><span class="badge badge-warning">Эмчилгээ хийгдэж байгаа.</span></h5>
+            {% else %}
+              <span class="badge badge-danger">Эмчилгээ эхлээгүй.</span>
+            {% endif %}
+          </td>
+        </tr>
       {% endfor %}
   </tbody>
 </table>
