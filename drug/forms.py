@@ -24,13 +24,11 @@ class HistoryForm(forms.ModelForm):
         fields = [
             'costumer',
             'doctor',
-            'date',
             'disc',
         ]
         widgets = {
             'costumer': forms.Select(attrs={'class': 'history-fields form-control form-control-sm'}),
             'doctor': forms.Select(attrs={'class': 'history-fields form-control form-control-sm'}),
-            'date': forms.DateInput(attrs={"type": "date", 'class': 'history-fields form-control form-control-sm'}),
             'disc': forms.TextInput(attrs={'class': 'history-fields form-control form-control-sm'}),
         }
 

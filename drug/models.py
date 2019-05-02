@@ -42,6 +42,7 @@ class Emchilgee(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True, blank=True)
     costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
     onosh = models.ForeignKey(Onosh, on_delete=models.SET_NULL, null=True, blank=True)
+    created_date = models.DateField(default=timezone.now)
 
     def __str__(self):
         return self.worker
@@ -59,7 +60,7 @@ class Emchilgee(models.Model):
 class History(models.Model):
     costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
     doctor = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True, blank=True)
-    date = models.DateField(default=timezone.now)
+    created_date = models.DateField(default=timezone.now)
     disc = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
@@ -96,6 +97,6 @@ class Doctor_review(models.Model):
     review = models.IntegerField(default=1)
 
 class Costumer_review(models.Model):
-    emchilgee = models.ForeignKey(Emchilgee, on_delete=models.SET_NULL, null=True, blank=True)
+    emchilgee = models.IntegerField(default=0)
     costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
     review = models.IntegerField(default=1)

@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^history_list/$', views.history_list, name="history_list"),
     url(r'^emchilgee_list/$', views.emchilgee_list, name="emchilgee_list"),
     url(r'^all_emchilgee_list/$', views.all_emchilgee_list, name="all_emchilgee_list"),
+    url(r'^costumer_emchilgee_list/$', views.costumer_emchilgee_list, name="costumer_emchilgee_list"),
     url(r'^emchilgee_list_done/$', views.emchilgee_list_done, name="emchilgee_list_done"),
     url(r'^add_recived_date/(?P<id>[0-9]+)/$', views.add_recived_date, name = "add_recived_date"),
     url(r'^make_review_1/(?P<emchilgee_id>[0-9]+)/$', views.make_review_1, name="make_review_1"),
