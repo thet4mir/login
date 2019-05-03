@@ -1,0 +1,97 @@
+{% for items in emchilgee %}
+  <div class="card bg-light col-md-10 my-3">
+    <div class="card-body text-left">
+      <h4 class="text-center"> Эмчилгээ </h4>
+      <table>
+        <tbody>
+          <tr>
+            <th> Эмчлэгч  Сувилагч: </th>
+            <td> {{ items.worker }} </td>
+          </tr>
+          <tr>
+            <th> Эмчлүүлэгч: </th>
+            <td> {{ items.costumer }} </td>
+          </tr>
+          <tr>
+            <th> Эхлэх огноо: </th>
+            <td> {{ items.start_date }} </td>
+          </tr>
+          <tr>
+            <th> Дуусах огноо: </th>
+            <td> {{ items.end_date }} </td>
+          </tr>
+          <tr>
+            <th> Үндсэн онош: </th>
+            <td> {{ items.onosh }} </td>
+          </tr>
+          <tr>
+            <th> Төлөв: </th>
+            <td>
+              {% if items.is_started %}
+                {% if items.is_done %}
+                  <span class="badge badge-success">Эмчилгээ дууссан.</span>
+                {% else %}
+                  <span class="badge badge-warning">Эмчилгээ хийгдэж байгаа.</span>
+                {% endif %}
+              {% else %}
+                <span class="badge badge-danger">Эмчилгээ эхлээгүй.</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% if request.user.is_worker %}
+            <tr>
+              <th> Эмчийн нэр: </th>
+              <td>
+                {% for review in doctor_review %}
+                  {% if items.id == review.emchilgee %}
+                    {{ review.doctor }}
+                  {% endif %}
+                {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <th> Эмчийн  үнэлгээ: </th>
+              <td>
+                {% for review in doctor_review %}
+                  {% if items.id == review.emchilgee %}
+                  {% if review.review == 1 %}
+                    <a href="#" class="btn btn-danger btn-lg">★</a>
+                  {% elif review.review == 2%}
+                    <a href="#" class="btn btn-warning btn-lg">★ ★</a>
+                  {% elif review.review == 3%}
+                    <a href="#" class="btn btn-info btn-lg">★ ★ ★</a>
+                  {% elif review.review == 4%}
+                    <a href="#" class="btn btn-primary btn-lg">★ ★ ★ ★</a>
+                  {% elif review.review == 5 %}
+                    <a href="#" class="btn btn-success btn-lg">★ ★ ★ ★ ★</a>
+                  {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </td>
+            </tr>
+          {% endif %}
+          <tr>
+            <th> Эмчлүүлэгчийн үнэлгээ: </th>
+            <td>
+              {% for review in costumer_review %}
+                {% if items.id == review.emchilgee %}
+                  {% if review.review == 1 %}
+                    <a href="#" class="btn btn-danger btn-lg">★</a>
+                  {% elif review.review == 2%}
+                    <a href="#" class="btn btn-warning btn-lg">★ ★</a>
+                  {% elif review.review == 3%}
+                    <a href="#" class="btn btn-info btn-lg">★ ★ ★</a>
+                  {% elif review.review == 4%}
+                    <a href="#" class="btn btn-primary btn-lg">★ ★ ★ ★</a>
+                  {% elif review.review == 5 %}
+                    <a href="#" class="btn btn-success btn-lg">★ ★ ★ ★ ★</a>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endfor %}

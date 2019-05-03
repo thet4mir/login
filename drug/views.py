@@ -3,13 +3,11 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 from django.db import transaction, IntegrityError
-from itertools import groupby
-from collections import Counter
-import collections
+from django.db.models import Sum, Q, Count
 from datetime import date
 
-from .models import Drug_category, Doctor_review, Costumer_review, Drug_detail, Drug_order, Drug_order_status, Drug_important, Emchilgee, Onosh, History, Worker, Costumer
-from .forms import Drug_detail_create_form, Drug_important_form, Emchilgee_form, OnoshForm, HistoryForm
+from .models import Onoshdahi_emchilgee, Drug_category, Doctor_review, Costumer_review, Drug_detail, Drug_order, Drug_order_status, Drug_important, Emchilgee, Onosh, History, Worker, Costumer
+from .forms import Drug_detail_create_form, Drug_important_form, Emchilgee_form, OnoshForm, HistoryForm, Onoshdahi_emchilgeeForm
 import pprint
 
 # Create your views here.
@@ -32,9 +30,11 @@ def emchilgee_create(request, template_name='drug/emchilgee_create.html'):
     drug_important = Drug_important.objects.all()
 
     Drug_important_formset = modelformset_factory(Drug_important, form=Drug_important_form)
+    Onoshdahi_emchilgeeFormset = modelformset_factory(Onoshdahi_emchilgee, form=Onoshdahi_emchilgeeForm)
 
     form = Emchilgee_form(request.POST or None)
-    formset1 = Drug_important_formset(request.POST or None, queryset = Drug_important.objects.none(), prefix='drug_important')
+    formset1 = Onoshdahi_emchilgeeFormset(request.POST or None, queryset = Onoshdahi_emchilgee.objects.none(), prefix='onoshdahi_emchilgee')
+    formset2 = Drug_important_formset(request.POST or None, queryset = Drug_important.objects.none(), prefix='drug_important')
 
     if request.method == "POST":
         if form.is_valid():
@@ -44,10 +44,16 @@ def emchilgee_create(request, template_name='drug/emchilgee_create.html'):
                     emchilgee.save()
 
                     if formset1.is_valid():
-                        for drug_important in formset1:
-                            data = drug_important.save(commit=False)
-                            data.emchilgee = emchilgee
-                            data.save()
+                        for onoshdahi_emchilgee in formset1:
+                            data1 = onoshdahi_emchilgee.save(commit=False)
+                            data1.emchilgee = emchilgee
+                            data1.save()
+
+                            if formset2.is_valid():
+                                for drug_important in formset2:
+                                    data2 = drug_important.save(commit=False)
+                                    data2.onoshdahi_emchilgee = data1
+                                    data2.save()
             except IntegrityError:
                 print("Error Encountered")
 
@@ -192,36 +198,32 @@ def drug_order(request, template_name='drug/drug_order.html'):
     sum_list = []
     drug_order = Drug_order()
     today = date.today()
+
+    not_ordered_drug = Drug_important.objects.filter(emchilgee__worker = request.user.worker).filter(is_ordered = False).values('name').annotate(Sum('shirheg'))
+    for items in not_ordered_drug:
+        drug_detail = get_object_or_404(Drug_detail, id=items['name'])
+        pprint.pprint(drug_detail)
     if request.method == "POST":
-        emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
-        for item in emchilgee:
-            drug_important = Drug_important.objects.filter(emchilgee = item)
-            for drug in drug_important:
-                drug.is_ordered = True
-                drug.save()
-                drug_order.name = drug.name
-                drug_order.number = drug.shirheg
-                drug_order.nurse = request.user.worker
-                drug_order.save()
+        drug_important = Drug_important.objects.filter(emchilgee__worker = request.user.worker).filter(is_ordered = False)
+        insert_drug_order = Drug_important.objects.filter(emchilgee__worker = request.user.worker).filter(is_ordered = False).values('name').annotate(Sum('shirheg'))
 
-    drug_name = []
-    not_ordered_drug = Drug_important.objects.filter(is_ordered = False)
+        for items in insert_drug_order:
+            drug_order = Drug_order()
+            drug_detail = get_object_or_404(Drug_detail, id=items['name'])
+            drug_order.name = drug_detail
+            drug_order.number = items['shirheg__sum']
+            drug_order.nurse = request.user.worker
+            drug_order.save()
 
-    emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
-    for item in emchilgee:
-        drug_important = Drug_important.objects.filter(emchilgee = item)
         for drug in drug_important:
-            if drug.is_ordered == False:
-                not_ordered.append(drug)
-            else:
-                ordered.append(drug)
+            drug.is_ordered = True
+            drug.save()
+
+        return redirect('drug:drug_order')
+
     ordered_order = Drug_order.objects.all()
-    for items in ordered_order:
-        pprint.pprint(items.id)
     data['not_ordered_drug'] = not_ordered_drug
     data['ordered_order'] = ordered_order
-    data['ordered'] = ordered
-    data['not_ordered'] = not_ordered
 
     return render(request, template_name, data)
 

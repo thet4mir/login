@@ -56,6 +56,16 @@ class Emchilgee(models.Model):
     def has_review(self):
          rsp = get_object_or_404(Doctor_review, emchilgee = self.id)
          return rsp
+class Emchilgee_list(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+    code = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+class Onoshdahi_emchilgee(models.Model):
+    emchilgee = models.ForeignKey(Emchilgee, on_delete=models.CASCADE)
+    emchilgee_list = models.ForeignKey(Emchilgee_list, on_delete=models.SET_NULL, null=True, blank=True)
 
 class History(models.Model):
     costumer = models.ForeignKey(Costumer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -67,7 +77,7 @@ class History(models.Model):
         return self.costumer
 
 class Drug_important(models.Model):
-    emchilgee = models.ForeignKey(Emchilgee, on_delete=models.SET_NULL, null=True, blank=True)
+    onoshdahi_emchilgee = models.ForeignKey(Onoshdahi_emchilgee, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.ForeignKey(Drug_detail, on_delete=models.SET_NULL, null=True, blank=True)
     shirheg = models.IntegerField(default=0)
     is_ordered = models.BooleanField('ordered_status', default=False)

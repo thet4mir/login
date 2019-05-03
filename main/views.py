@@ -20,24 +20,27 @@ def Home(request):
     if request.user.is_worker:
         if request.user.worker.is_doctor:
             user = Worker.objects.filter(user=request.user)
-            emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
-            history = History.objects.filter(doctor = request.user.worker)
-            data['doctor_review'] =Doctor_review.objects.all()
-            data['history'] = history
-            data['emchilgee'] = emchilgee
+            costumer = Emchilgee.objects.all()
+            #history = History.objects.filter(doctor = request.user.worker)
+            #data['doctor_review'] =Doctor_review.objects.all()
+            #data['history'] = history
+            #data['emchilgee'] = emchilgee
         else:
             user = Worker.objects.filter(user=request.user)
-            emchilgee = Emchilgee.objects.all()
-            history = History.objects.all()
-            data['doctor_review'] =Doctor_review.objects.all()
-            data['history'] = history
-            data['emchilgee'] = emchilgee
+            costumer = Emchilgee.objects.filter(worker = request.user.worker)
+            #emchilgee = Emchilgee.objects.all()
+            #history = History.objects.all()
+            #data['doctor_review'] =Doctor_review.objects.all()
+            #data['history'] = history
+            #data['emchilgee'] = emchilgee
     else:
         user = Costumer.objects.filter(user=request.user)
-        emchilgee = Emchilgee.objects.filter(costumer=request.user.costumer)
-        history = History.objects.filter(costumer=request.user.costumer)
+        #emchilgee = Emchilgee.objects.filter(costumer=request.user.costumer)
+        #history = History.objects.filter(costumer=request.user.costumer)
+        #data['history'] = history
+        #data['emchilgee'] = emchilgee
 
-    data['costumer_review'] = Costumer_review.objects.all()
+    #data['costumer_review'] = Costumer_review.objects.all()
     data['user'] = user
     template_name = 'index.html'
     return render(request, template_name, data)

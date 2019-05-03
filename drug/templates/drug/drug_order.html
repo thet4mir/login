@@ -20,10 +20,10 @@
     </tr>
 </thead>
   <tbody>
-      {% for drug in not_ordered %}
+      {% for drug in not_ordered_drug %}
         <tr>
-          <td>{{ drug.name }}</td>
-          <td>{{ drug.shirheg }}</td>
+          <td>{{ drug.name__name }}</td>
+          <td>{{ drug.shirheg__sum }}</td>
           <td>  </td>
           <td>  </td>
           <td>  </td>
@@ -34,6 +34,7 @@
       {% endfor %}
   </tbody>
 </table>
+
 <h5> Захиалга хийгдсэн эмийн жагсаалт </h5>
 <table class="table">
 <thead>
