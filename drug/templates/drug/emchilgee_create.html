@@ -25,41 +25,54 @@
         {{ form.onosh|as_crispy_field }}
       </div>
     </div>
-    <span> {{ nurse }} </span>
-    <h4> Шаардлагатай эм </h4>
-    <table class="table form-table table-bordered table-sm">
-      <thead class="thead-light text-center">
-        <tr>
-          <th> Нэр </th>
-          <th> Ширхэг </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for form_data in formset1 %}
-          <tr class="{{ formset1.prefix }}">
-              <td>
-                  {{ form_data.name}}
-              </td>
-              <td>
-                  {{ form_data.shirheg }}
-              </td>
-              <td>
-                  <button type="button" class="btn btn-danger btn-sm remove-form-row" id="{{ formset1.prefix }}">
-                      <i class="fa fa-trash"></i>
+    {% for form_data1 in formset1 %}
+    <div class="card bg-light my-3 {{ formset1.prefix }}">
+      <div class="card-body text-left">
+        {{ form_data1.emchilgee_list}}
+        <button type="button" class="btn btn-danger btn-sm remove-form-row" id="{{ formset1.prefix }}">
+            <i class="fa fa-trash"></i>
+        </button>
+        <h4> Шаардлагатай эм </h4>
+        <table class="table form-table table-bordered table-sm">
+          <thead class="thead-light text-center">
+            <tr>
+              <th> Нэр </th>
+              <th> Ширхэг </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for form_data2 in formset2 %}
+              <tr class="{{ formset2.prefix }}">
+                  <td>
+                      {{ form_data2.name}}
+                  </td>
+                  <td>
+                      {{ form_data2.shirheg }}
+                  </td>
+                  <td>
+                      <button type="button" class="btn btn-danger btn-sm remove-form-row" id="{{ formset2.prefix }}">
+                          <i class="fa fa-trash"></i>
+                      </button>
+                  </td>
+              </tr>
+          {% endfor %}
+          <tr>
+              <td colspan="9" style="border-left: none!important; border-right: none !important; border-bottom: none !important;">
+                  <button type="button" class="btn btn-sm btn-success add-form-row" id="{{ formset2.prefix }}">
+                     <i class="fa fa-plus"></i>
                   </button>
               </td>
           </tr>
-      {% endfor %}
-      <tr>
-          <td colspan="9" style="border-left: none!important; border-right: none !important; border-bottom: none !important;">
-              <button type="button" class="btn btn-sm btn-success add-form-row" id="{{ formset1.prefix }}">
-                 <i class="fa fa-plus"></i>
-              </button>
-          </td>
-      </tr>
-      </tbody>
-    </table>
+          </tbody>
+        </table>
+        {{ formset2.management_form }}
+      </div>
+    </div>
+    <button type="button" class="btn btn-sm btn-success add-form-row" id="{{ formset1.prefix }}">
+       <i class="fa fa-plus"></i>
+    </button>
+    {% endfor %}
     {{ formset1.management_form }}
     <input class="btn search" type="submit" value="Submit" />
 </form>

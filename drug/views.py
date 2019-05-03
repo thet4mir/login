@@ -61,6 +61,7 @@ def emchilgee_create(request, template_name='drug/emchilgee_create.html'):
 
     context['drug_important'] = drug_important
     context['emchilgee'] = emchilgee
+    context['formset2'] = formset2
     context['formset1'] = formset1
     context['form'] = form
     return render(request, template_name, context)
