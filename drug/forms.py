@@ -1,18 +1,7 @@
 from django import forms
-from .models import Drug_detail, Emchilgee, Drug_important, Onosh, History, Onoshdahi_emchilgee
+from .models import Drug_detail, Emchilgee, Drug_important, Onosh, History
 from account.models import User, Worker, Costumer
 
-class Onoshdahi_emchilgeeForm(forms.ModelForm):
-    class Meta:
-        model = Onoshdahi_emchilgee
-
-        fields = [
-            'emchilgee_list',
-        ]
-        widgets = {
-            'emchilgee_list': forms.Select(attrs={'class': 'Onoshdahi_emchilgee-fields form-control form-control-sm'})
-        }
-        
 class OnoshForm(forms.ModelForm):
     class Meta:
         model = Onosh
@@ -71,10 +60,12 @@ class Drug_important_form(forms.ModelForm):
         model = Drug_important
 
         fields = [
+            'emchilgee_list',
             'name',
             'shirheg',
         ]
         widgets = {
+            'emchilgee_list': forms.Select(attrs={'class': "drug_important-fields form-control form-control-sm"}),
             'name': forms.Select(attrs={'class': "drug_important-fields form-control form-control-sm"}),
             'shirheg': forms.TextInput(attrs={'class': "drug_important-fields form-control form-control-sm"}),
         }

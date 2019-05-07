@@ -4,10 +4,11 @@ from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 from django.db import transaction, IntegrityError
 from django.db.models import Sum, Q, Count
-from datetime import date
+from datetime import date, timedelta
+import datetime
 
-from .models import Onoshdahi_emchilgee, Drug_category, Doctor_review, Costumer_review, Drug_detail, Drug_order, Drug_order_status, Drug_important, Emchilgee, Onosh, History, Worker, Costumer
-from .forms import Drug_detail_create_form, Drug_important_form, Emchilgee_form, OnoshForm, HistoryForm, Onoshdahi_emchilgeeForm
+from .models import Drug_category, Doctor_review, Costumer_review, Drug_detail, Drug_order, Drug_order_status, Drug_important, Emchilgee, Onosh, History, Worker, Costumer
+from .forms import Drug_detail_create_form, Drug_important_form, Emchilgee_form, OnoshForm, HistoryForm
 import pprint
 
 # Create your views here.
@@ -30,10 +31,8 @@ def emchilgee_create(request, template_name='drug/emchilgee_create.html'):
     drug_important = Drug_important.objects.all()
 
     Drug_important_formset = modelformset_factory(Drug_important, form=Drug_important_form)
-    Onoshdahi_emchilgeeFormset = modelformset_factory(Onoshdahi_emchilgee, form=Onoshdahi_emchilgeeForm)
 
     form = Emchilgee_form(request.POST or None)
-    formset1 = Onoshdahi_emchilgeeFormset(request.POST or None, queryset = Onoshdahi_emchilgee.objects.none(), prefix='onoshdahi_emchilgee')
     formset2 = Drug_important_formset(request.POST or None, queryset = Drug_important.objects.none(), prefix='drug_important')
 
     if request.method == "POST":
@@ -43,26 +42,19 @@ def emchilgee_create(request, template_name='drug/emchilgee_create.html'):
                     emchilgee = form.save(commit=False)
                     emchilgee.save()
 
-                    if formset1.is_valid():
-                        for onoshdahi_emchilgee in formset1:
-                            data1 = onoshdahi_emchilgee.save(commit=False)
+                    if formset2.is_valid():
+                        for drug_important in formset2:
+                            data1 = drug_important.save(commit=False)
                             data1.emchilgee = emchilgee
                             data1.save()
 
-                            if formset2.is_valid():
-                                for drug_important in formset2:
-                                    data2 = drug_important.save(commit=False)
-                                    data2.onoshdahi_emchilgee = data1
-                                    data2.save()
             except IntegrityError:
                 print("Error Encountered")
 
             return redirect('drug:emchilgee_create')
 
-    context['drug_important'] = drug_important
     context['emchilgee'] = emchilgee
     context['formset2'] = formset2
-    context['formset1'] = formset1
     context['form'] = form
     return render(request, template_name, context)
 
@@ -127,6 +119,16 @@ def history_list(request, template_name='drug/history_list.html'):
 
     return render(request, template_name, data)
 
+def emchilgee_details(request, id):
+    data = {}
+    emchilgee = get_object_or_404(Emchilgee, id=id)
+    costumer = Costumer.objects.filter(user=emchilgee.costumer)
+
+    template_name='drug/emchilgee_details.html'
+    data['costumer'] = costumer
+    data['emchilgee'] = emchilgee
+
+    return render(request, template_name, data)
 
 def emchilgee_list(request, template_name='drug/emchilgee_list.html'):
     data = {}
@@ -200,7 +202,8 @@ def drug_order(request, template_name='drug/drug_order.html'):
     drug_order = Drug_order()
     today = date.today()
 
-    not_ordered_drug = Drug_important.objects.filter(emchilgee__worker = request.user.worker).filter(is_ordered = False).values('name').annotate(Sum('shirheg'))
+    not_ordered_drug = Drug_important.objects.filter(emchilgee__worker = request.user.worker).filter(is_ordered = False).values('name','name__name').annotate(Sum('shirheg'))
+    pprint.pprint(not_ordered_drug)
     for items in not_ordered_drug:
         drug_detail = get_object_or_404(Drug_detail, id=items['name'])
         pprint.pprint(drug_detail)
@@ -222,7 +225,7 @@ def drug_order(request, template_name='drug/drug_order.html'):
 
         return redirect('drug:drug_order')
 
-    ordered_order = Drug_order.objects.all()
+    ordered_order = Drug_order.objects.filter(nurse = request.user.worker)
     data['not_ordered_drug'] = not_ordered_drug
     data['ordered_order'] = ordered_order
 
@@ -237,15 +240,12 @@ def add_recived_date(request, id):
 def reviews(request, template_name='drug/reviews.html'):
     data = {}
     temp = []
+    days = []
     today = date.today()
     doctor_review = Doctor_review.objects.all()
     costumer_review = Costumer_review.objects.all()
     emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
-    for item in emchilgee:
-        if item.end_date < today:
-            temp.append(item)
 
-    emchilgee = temp
     data['costumer_review'] = costumer_review
     data['doctor_review'] = doctor_review
     data['emchilgee'] = emchilgee

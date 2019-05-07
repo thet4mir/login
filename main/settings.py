@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'drug',
     'crispy_forms',
     'bootstrap3',
+    'mathfilters',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

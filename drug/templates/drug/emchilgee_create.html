@@ -25,17 +25,13 @@
         {{ form.onosh|as_crispy_field }}
       </div>
     </div>
-    {% for form_data1 in formset1 %}
     <div class="card bg-light my-3 {{ formset1.prefix }}">
       <div class="card-body text-left">
-        {{ form_data1.emchilgee_list}}
-        <button type="button" class="btn btn-danger btn-sm remove-form-row" id="{{ formset1.prefix }}">
-            <i class="fa fa-trash"></i>
-        </button>
         <h4> Шаардлагатай эм </h4>
         <table class="table form-table table-bordered table-sm">
           <thead class="thead-light text-center">
             <tr>
+              <th>  Эмчилгээ </th>
               <th> Нэр </th>
               <th> Ширхэг </th>
               <th></th>
@@ -44,6 +40,9 @@
           <tbody>
           {% for form_data2 in formset2 %}
               <tr class="{{ formset2.prefix }}">
+                  <td>
+                      {{ form_data2.emchilgee_list}}
+                  </td>
                   <td>
                       {{ form_data2.name}}
                   </td>
@@ -69,11 +68,6 @@
         {{ formset2.management_form }}
       </div>
     </div>
-    <button type="button" class="btn btn-sm btn-success add-form-row" id="{{ formset1.prefix }}">
-       <i class="fa fa-plus"></i>
-    </button>
-    {% endfor %}
-    {{ formset1.management_form }}
     <input class="btn search" type="submit" value="Submit" />
 </form>
 

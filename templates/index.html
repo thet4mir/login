@@ -54,6 +54,30 @@
         <span> doctor </span>
       {% else %}
         <span> nurse </span>
+        <table class="table">
+          <thead>
+            <th> № </th>
+            <th> Эмчлүүлэгчийн нэр </th>
+            <th> Эхлэх огноо </th>
+            <th> Дуусах огноо </th>
+            <th> Онош </th>
+            <th>  </th>
+          </thead>
+          <tbody>
+            {% for items in emchilgee %}
+              <tr>
+                <td> {{ forloop.counter }} </td>
+                <td> {{ items.costumer }} </td>
+                <td> {{ items.start_date }} </td>
+                <td> {{ items.end_date }} </td>
+                <td> {{ items.onosh }} </td>
+                <td>
+                  <a href="{% url 'drug:emchilgee_details' items.id %}" class="btn btn-info btn-xs">Дэлгэрэнгүй</a> 
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       {% endif %}
     {% endif %}
   </div>

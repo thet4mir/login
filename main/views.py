@@ -18,16 +18,21 @@ def Home(request):
     pprint.pprint(request.user)
     pprint.pprint(request.user.worker)
     if request.user.is_worker:
-        if request.user.worker.is_doctor:
+        pprint.pprint('worker')
+        if request.user.worker.is_doctor():
+            pprint.pprint('doctor')
             user = Worker.objects.filter(user=request.user)
-            costumer = Emchilgee.objects.all()
+            emchilgee = Emchilgee.objects.all()
             #history = History.objects.filter(doctor = request.user.worker)
             #data['doctor_review'] =Doctor_review.objects.all()
             #data['history'] = history
             #data['emchilgee'] = emchilgee
         else:
+            pprint.pprint('nurse')
             user = Worker.objects.filter(user=request.user)
-            costumer = Emchilgee.objects.filter(worker = request.user.worker)
+            pprint.pprint(request.user)
+            emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
+            pprint.pprint('****')
             #emchilgee = Emchilgee.objects.all()
             #history = History.objects.all()
             #data['doctor_review'] =Doctor_review.objects.all()
@@ -41,6 +46,7 @@ def Home(request):
         #data['emchilgee'] = emchilgee
 
     #data['costumer_review'] = Costumer_review.objects.all()
+    data['emchilgee'] = emchilgee
     data['user'] = user
     template_name = 'index.html'
     return render(request, template_name, data)

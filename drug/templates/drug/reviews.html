@@ -4,13 +4,17 @@
 
 {% block content %}
 <h4>Гүйцэтгэл</h4>
-<div class="split split2">
+<div class="split">
   {% for items in emchilgee %}
     <div class="card bg-light my-3">
       <div class="card-body text-left">
         <h4 class="text-center"> Эмчилгээ </h4>
         <table>
           <tbody>
+            <tr>
+              <td> № </td>
+              <td> {{ forloop.counter }} </td>
+            </tr>
             <tr>
               <th> Эмчлэгч  Сувилагч: </th>
               <td> {{ items.worker }} </td>
@@ -95,6 +99,14 @@
                     {% endif %}
                   {% endif %}
                 {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"> Гүйцэтгэл </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                
               </td>
             </tr>
           </tbody>

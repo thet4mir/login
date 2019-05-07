@@ -1,34 +1,102 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load mathfilters %}
 
 {% block content %}
-<h4>Эмчилгээ харах</h4>
-<table class="table">
-<thead>
-    <tr>
-      <th> Эмчилгээ хийлгэх хоног</th>
-      <th> Өвчтөн </th>
-    </tr>
-</thead>
-  <tbody>
+{% for objects in costumer %}
+<div class="row">
+  <div class="col-md-4">
+      <h4 class="text-center"> Эмчлүүлэгчийн <br> ерөнхий мэдээлэл </h4>
+      <table class="list hoverable">
+        <tbody>
+            <tr>
+              <td> <b>Овог:</b> </td>
+              <td> {{objects.lastname}} </td>
+            </tr>
+            <tr>
+              <td><b> Нэр: </b></td>
+              <td> {{objects.firstname}} </td>
+            </tr>
+            <tr>
+              <td><b> Регистр №: </b></td>
+              <td> {{objects.register}} </td>
+            </tr>
+            <tr>
+              <td><b> Хүйс: </b></td>
+              <td> {{objects.gender}} </td>
+            </tr>
+            <tr>
+              <td><b> Нас: </b></td>
+              <td> {{objects.age}} </td>
+            </tr>
+            <tr>
+              <td><b> Нэмэлт мэдээлэл: </b></td>
+              <td> {{objects.description}} </td>
+            </tr>
+        </tbody>
+      </table>
+  </div>
+  {% endfor %}
+  <div class="col-md-8">
+    <div class="card bg-light my-3">
+      <div class="card-body text-left">
+        <h4 class="text-center"> Онош дахь эмчилгээ </h4>
+        <table>
+          <tbody>
+            <tr>
+              <th> Онош: </th>
+              <td> {{ emchilgee.onosh }} </td>
+            </tr>
+            <tr>
+              <th> Эхлэх огноо: </th>
+              <td> {{ emchilgee.start_date }} </td>
+            </tr>
+            <tr>
+              <th> Дуусах огноо: </th>
+              <td> {{ emchilgee.end_date }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card bg-light my-3">
+      <div class="card-body text-left">
+        <table class="table">
+          <thead>
+            <tr>
+              <th> Эмчилгээ </th>
+              <th> № </th>
+              <th> Эмний нэр </th>
+              <th> Нийт тоо ширхэг </th>
+              <th> Уух хоног </th>
+              <th> Өдрийн тун </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for items in emchilgee.drug_important_set.all %}
+              <tr>
+                <td>
+                  {% with temp=items.emchilgee_list %}{% endwith %}
+                    {% if temp != items.emchilgee_list %}
+                      {{ items.emchilgee_list }}
+                    {% endif %}
 
-  </tbody>
-</table>
-
-<table class="table">
-<thead>
-    <tr>
-      <th> Эмчилгээ хийлгэх хоног</th>
-      <th> Өвчтөн </th>
-    </tr>
-</thead>
-  <tbody>
-      {% for drug in drug_important %}
-        <tr>
-          <td> {{ drug.duration }} </td>
-          <td>{{ drug.costumer }} </td>
-        </tr>
-      {% endfor %}
-  </tbody>
-</table>
+                </td>
+                <td> {{ forloop.counter }} </td>
+                <td> {{ items.name }} </td>
+                <td> {{ items.shirheg }} </td>
+                <td> {{ emchilgee.count_days }} </td>
+                <td>
+                  {% with numerator=items.shirheg denominator=emchilgee.count_days %}
+                    {{ numerator|div:denominator }}
+                  {% endwith %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
