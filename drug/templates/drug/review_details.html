@@ -63,34 +63,60 @@
       <div class="card-body text-left">
         <table class="table">
           <thead>
-            <tr>
+            <tr class="thead-light">
               <th> Эмчилгээ </th>
-              <th> № </th>
-              <th> Эмний нэр </th>
-              <th> Нийт тоо ширхэг </th>
-              <th> Уух хоног </th>
-              <th> Өдрийн тун </th>
+              <th> Эмийн нэр </th>
+              {% for x in days %}
+                <th> {{x}} </th>
+              {% endfor %}
             </tr>
           </thead>
           <tbody>
             {% for items in emchilgee.drug_important_set.all %}
-              <tr>
-                <td>
-                  {% ifchanged items.emchilgee_list %}
-                    {{ items.emchilgee_list }}
-                  {% endifchanged %}
-                </td>
-                <td> {{ forloop.counter }} </td>
-                <td> {{ items.name }} </td>
-                <td> {{ items.shirheg }} </td>
-                <td> {{ emchilgee.count_days }} </td>
-                <td>
-                  {% with numerator=items.shirheg denominator=emchilgee.count_days %}
-                    {{ numerator|div:denominator }}
-                  {% endwith %}
-                </td>
-              </tr>
+                <tr>
+                  <td>
+                    {% ifchanged items.emchilgee_list %}
+                        {{ items.emchilgee_list }}
+                    {% endifchanged %}
+                  </td>
+
+                  <td> {{items.name}} </td>
+                  {% for x in days %}
+                    <td>
+                      {% for key, value in result.items %}
+                        {% if forloop.last %}
+                          {{ value }}
+                        {% endif %}
+                      {% endfor %}
+                    </td>
+                  {% endfor %}
+                </tr>
             {% endfor %}
+            <tr class="thead-light">
+              <th  colspan="2">
+                  Эмчилгээ хийгдсэн эсэх
+              </th>
+              {% for x in days %}
+                <th>
+                  <form action="{% url 'drug:review_details' emchilgee.id %}" method="POST">
+                    {% csrf_token %}
+                    {% if x == today %}
+                      {% if emchilgee.days_of_emchilgee_set.all %}
+                        {% for done in emchilgee.days_of_emchilgee_set.all %}
+                          {% if done.day != today %}
+                            <input type="hidden" name="emchilgee" value="{{ emchilgee.id }}">
+                            <input class="btn btn-primary btn-xs" type="submit" value="✔" />
+                          {% endif %}
+                        {% endfor %}
+                      {% else %}
+                        <input type="hidden" name="emchilgee" value="{{ emchilgee.id }}">
+                        <input class="btn btn-primary btn-xs" type="submit" value="✔" />
+                      {% endif %}
+                    {% endif %}
+                  </form>
+                </th>
+              {% endfor %}
+            </tr>
           </tbody>
         </table>
       </div>

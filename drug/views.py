@@ -7,7 +7,7 @@ from django.db.models import Sum, Q, Count
 from datetime import date, timedelta
 import datetime
 
-from .models import Drug_category, Doctor_review, Costumer_review, Drug_detail, Drug_order, Drug_order_status, Drug_important, Emchilgee, Onosh, History, Worker, Costumer
+from .models import Days_of_emchilgee, Drug_category, Doctor_review, Costumer_review, Drug_detail, Drug_order, Drug_order_status, Drug_important, Emchilgee, Onosh, History, Worker, Costumer
 from .forms import Drug_detail_create_form, Drug_important_form, Emchilgee_form, OnoshForm, HistoryForm
 import pprint
 
@@ -116,6 +116,75 @@ def history_list(request, template_name='drug/history_list.html'):
 
     data = {}
     data['history'] = history
+
+    return render(request, template_name, data)
+
+def review_details(request, id):
+    data = {}
+    days = []
+    result = {}
+    temp_result = []
+
+    today = date.today()
+    emchilgee = get_object_or_404(Emchilgee, id=id)
+    costumer = Costumer.objects.filter(user=emchilgee.costumer)
+    count_day = emchilgee.count_days()
+
+    day_of_emchilgee = Days_of_emchilgee.objects.filter(emchilgee = emchilgee)
+
+    if request.method == "POST":
+        emchilgee_id = request.POST.get('emchilgee')
+        emchilgee = get_object_or_404(Emchilgee, id=emchilgee_id)
+
+        day_of_emchilgee = Days_of_emchilgee()
+        day_of_emchilgee.emchilgee = emchilgee
+        day_of_emchilgee.day = today
+        day_of_emchilgee.is_done = True
+        day_of_emchilgee.save()
+
+    template_name='drug/review_details.html'
+    for x in range(count_day):
+        days.append(emchilgee.start_date + timedelta(days=x))
+        temp = emchilgee.start_date + timedelta(days=x)
+        if emchilgee.days_of_emchilgee_set.all():
+            for done in emchilgee.days_of_emchilgee_set.all():
+                pprint.pprint("****")
+                pprint.pprint(temp)
+                pprint.pprint('-----------')
+                pprint.pprint(done.day)
+                pprint.pprint('****')
+                if done.day == temp:
+                    result[x] = "✔"
+                    temp_result.append("✔")
+                    break
+                else:
+                    if temp < today:
+                        result[x] = "✘"
+                        temp_result.append("✘")
+                    elif x == today:
+                        result[x] = "?"
+                        temp_result.append("?")
+                    else:
+                        result[x] = "*"
+                        temp_result.append("*")
+        else:
+            if temp < today:
+                result[x] = "✘"
+                temp_result.append("✘")
+            elif temp == today:
+                result[x] = "?"
+                temp_result.append("?")
+            else:
+                result[x] = "*"
+                temp_result.append("*")
+
+    pprint.pprint(result)
+
+    data['result'] = result
+    data['today'] = today
+    data['days'] = days
+    data['costumer'] = costumer
+    data['emchilgee'] = emchilgee
 
     return render(request, template_name, data)
 

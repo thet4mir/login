@@ -59,6 +59,12 @@ class Emchilgee(models.Model):
         result = self.end_date + timedelta(days=1) - self.start_date
         return int(result.days)
 
+class Days_of_emchilgee(models.Model):
+    emchilgee               = models.ForeignKey(Emchilgee, on_delete=models.CASCADE, default=1)
+    day                     = models.DateField(default=timezone.now)
+    is_done                 = models.BooleanField(default=False)
+
+
 class Emchilgee_list(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     code = models.CharField(max_length=200, null=True, blank=True)

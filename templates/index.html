@@ -54,7 +54,7 @@
         <span> doctor </span>
       {% else %}
         <span> nurse </span>
-        <table class="table">
+        <table class="table table-striped">
           <thead>
             <th> № </th>
             <th> Эмчлүүлэгчийн нэр </th>
@@ -72,7 +72,7 @@
                 <td> {{ items.end_date }} </td>
                 <td> {{ items.onosh }} </td>
                 <td>
-                  <a href="{% url 'drug:emchilgee_details' items.id %}" class="btn btn-info btn-xs">Дэлгэрэнгүй</a> 
+                  <a href="{% url 'drug:emchilgee_details' items.id %}" class="btn btn-info btn-xs">Дэлгэрэнгүй</a>
                 </td>
               </tr>
             {% endfor %}

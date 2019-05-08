@@ -607,56 +607,6 @@ input[type="radio"] + label:after {
 /*
  * Checkbox
  */
-input[type="checkbox"]{
-    display: block;
-    height: 0px;
-    width: 0px;
-    position: absolute;
-    z-index: -9999;
-}
-
-input[type="checkbox"] + label {
-    display: inline-block;
-    line-height: 2em;
-    padding-left: 2em;
-    position: relative;
-    overflow: hidden;
-}
-
-input[type="checkbox"] + label:before {
-    content: "";
-    position: absolute;
-    left: 2px;
-    top: 6px;
-    width: 16px;
-    height: 16px;
-    border-radius: 2px;
-    background-color: #fafdff;
-    box-shadow: inset 0 2px 2px rgba(0,0,0,.07), 0 0 0 1px darkgrey;
-    transition: box-shadow .15s ease-in-out;
-}
-
-input[type="checkbox"]:focus + label:before {
-    box-shadow: inset 0 2px 2px rgba(0,0,0,.07), 0 0 0 2px #1f55af;
-}
-
-input[type="checkbox"] + label:after {
-    content: "";
-    position: absolute;
-    left: 7px;
-    top: 6px;
-    border-color: transparent;
-    border-width: 2px;
-    border-style: solid;
-    width: .2em;
-    height: .6em;
-    transition: border-color .15s ease-in-out;
-    transform: rotate(37deg);
-}
-
-input[type="checkbox"]:checked + label:after {
-    border-color: transparent #1f55af #1f55af transparent;
-}
 
 @media screen and (max-width: 1440px){
     .container{
