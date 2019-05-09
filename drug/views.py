@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.db import transaction, IntegrityError
 from django.db.models import Sum, Q, Count
@@ -12,6 +13,7 @@ from .forms import Drug_detail_create_form, Drug_important_form, Emchilgee_form,
 import pprint
 
 # Create your views here.
+@login_required
 def drug_detail(request, template_name='drug/drug_detail.html'):
     data = {}
     drug_detail = Drug_detail.objects.all()
@@ -25,6 +27,7 @@ def drug_detail(request, template_name='drug/drug_detail.html'):
     data['form'] = form
     return render(request, template_name, data)
 
+@login_required
 def emchilgee_create(request, template_name='drug/emchilgee_create.html'):
     context = {}
     emchilgee = Emchilgee.objects.all()
@@ -58,6 +61,7 @@ def emchilgee_create(request, template_name='drug/emchilgee_create.html'):
     context['form'] = form
     return render(request, template_name, context)
 
+@login_required
 def onosh_create(request, template_name='drug/onosh_create.html'):
     context = {}
     OnoshFormset = modelformset_factory(Onosh, form=OnoshForm)
@@ -79,6 +83,8 @@ def onosh_create(request, template_name='drug/onosh_create.html'):
 
     context['formset1'] = formset1
     return render(request, template_name, context)
+
+@login_required
 def onosh_list(request, template_name='drug/onosh_list.html'):
 
     onosh = Onosh.objects.all()
@@ -88,6 +94,7 @@ def onosh_list(request, template_name='drug/onosh_list.html'):
 
     return render(request, template_name, data)
 
+@login_required
 def history_create(request, template_name='drug/history_create.html'):
     context = {}
     HistoryFormset = modelformset_factory(History, form=HistoryForm)
@@ -110,6 +117,7 @@ def history_create(request, template_name='drug/history_create.html'):
     context['formset1'] = formset1
     return render(request, template_name, context)
 
+@login_required
 def history_list(request, template_name='drug/history_list.html'):
 
     history = History.objects.all()
@@ -119,12 +127,13 @@ def history_list(request, template_name='drug/history_list.html'):
 
     return render(request, template_name, data)
 
+@login_required
 def review_details(request, id):
     data = {}
     days = []
     result = {}
     temp_result = []
-
+    button = True
     today = date.today()
     emchilgee = get_object_or_404(Emchilgee, id=id)
     costumer = Costumer.objects.filter(user=emchilgee.costumer)
@@ -143,6 +152,11 @@ def review_details(request, id):
         day_of_emchilgee.save()
 
     template_name='drug/review_details.html'
+    for done in emchilgee.days_of_emchilgee_set.all():
+        if done.day == today:
+            button = False
+            break
+
     for x in range(count_day):
         days.append(emchilgee.start_date + timedelta(days=x))
         temp = emchilgee.start_date + timedelta(days=x)
@@ -161,7 +175,7 @@ def review_details(request, id):
                     if temp < today:
                         result[x] = "✘"
                         temp_result.append("✘")
-                    elif x == today:
+                    elif temp == today:
                         result[x] = "?"
                         temp_result.append("?")
                     else:
@@ -180,6 +194,7 @@ def review_details(request, id):
 
     pprint.pprint(result)
 
+    data['button'] = button
     data['result'] = result
     data['today'] = today
     data['days'] = days
@@ -188,6 +203,7 @@ def review_details(request, id):
 
     return render(request, template_name, data)
 
+@login_required
 def emchilgee_details(request, id):
     data = {}
     emchilgee = get_object_or_404(Emchilgee, id=id)
@@ -199,6 +215,7 @@ def emchilgee_details(request, id):
 
     return render(request, template_name, data)
 
+@login_required
 def emchilgee_list(request, template_name='drug/emchilgee_list.html'):
     data = {}
     temp = []
@@ -215,6 +232,7 @@ def emchilgee_list(request, template_name='drug/emchilgee_list.html'):
 
     return render(request, template_name, data)
 
+@login_required
 def emchilgee_list_done(request, template_name='drug/emchilgee_list_done.html'):
     data = {}
     temp = []
@@ -231,6 +249,7 @@ def emchilgee_list_done(request, template_name='drug/emchilgee_list_done.html'):
 
     return render(request, template_name, data)
 
+@login_required
 def all_emchilgee_list(request, template_name='drug/all_emchilgee_list.html'):
     data = {}
     temp = []
@@ -247,6 +266,7 @@ def all_emchilgee_list(request, template_name='drug/all_emchilgee_list.html'):
 
     return render(request, template_name, data)
 
+@login_required
 def costumer_emchilgee_list(request, template_name='drug/costumer_emchilgee_list.html'):
     data = {}
     temp = []
@@ -263,6 +283,7 @@ def costumer_emchilgee_list(request, template_name='drug/costumer_emchilgee_list
 
     return render(request, template_name, data)
 
+@login_required
 def drug_order(request, template_name='drug/drug_order.html'):
     data = {}
     not_ordered = []
@@ -300,12 +321,14 @@ def drug_order(request, template_name='drug/drug_order.html'):
 
     return render(request, template_name, data)
 
+@login_required
 def add_recived_date(request, id):
     drug_order = get_object_or_404(Drug_order,id=id)
     drug_order.recived_date = date.today()
     drug_order.save()
     return redirect('drug:drug_order')
 
+@login_required
 def reviews(request, template_name='drug/reviews.html'):
     data = {}
     temp = []
@@ -321,6 +344,7 @@ def reviews(request, template_name='drug/reviews.html'):
 
     return render(request, template_name, data)
 
+@login_required
 def make_review_1(request, emchilgee_id):
     if request.user.is_worker:
         rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
@@ -357,6 +381,7 @@ def make_review_1(request, emchilgee_id):
             costumer_review.save()
             return redirect('drug:costumer_emchilgee_list')
 
+@login_required
 def make_review_2(request, emchilgee_id):
     if request.user.is_worker:
         rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
@@ -392,6 +417,8 @@ def make_review_2(request, emchilgee_id):
             costumer_review.review = 2
             costumer_review.save()
             return redirect('drug:costumer_emchilgee_list')
+
+@login_required
 def make_review_3(request, emchilgee_id):
     if request.user.is_worker:
         rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
@@ -428,6 +455,7 @@ def make_review_3(request, emchilgee_id):
             costumer_review.save()
             return redirect('drug:costumer_emchilgee_list')
 
+@login_required
 def make_review_4(request, emchilgee_id):
     if request.user.is_worker:
         rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
@@ -464,6 +492,7 @@ def make_review_4(request, emchilgee_id):
             costumer_review.save()
             return redirect('drug:costumer_emchilgee_list')
 
+@login_required
 def make_review_5(request, emchilgee_id):
     if request.user.is_worker:
         rsp = Doctor_review.objects.filter(emchilgee = emchilgee_id)
