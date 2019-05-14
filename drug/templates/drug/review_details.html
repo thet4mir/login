@@ -6,6 +6,9 @@
 {% for objects in costumer %}
 <div class="row">
   <div class="col-md-4">
+      {% for x in id %}
+        <a href="{% url 'drug:reviews_percostumer' x.costumer %}" class="btn btn-info btn-xs">Буцах</a>
+      {% endfor %}
       <h4 class="text-center"> Эмчлүүлэгчийн <br> ерөнхий мэдээлэл </h4>
       <table class="list hoverable">
         <tbody>

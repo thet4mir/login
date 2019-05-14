@@ -62,32 +62,27 @@
     <div class="card bg-light my-3">
       <div class="card-body text-left">
         <table class="table">
-          <thead>
-            <tr>
-              <th> Эмчилгээ </th>
-              <th> № </th>
-              <th> Эмний нэр </th>
-              <th> Нийт тоо ширхэг </th>
-              <th> Уух хоног </th>
-              <th> Өдрийн тун </th>
-            </tr>
-          </thead>
           <tbody>
             {% for items in emchilgee.drug_important_set.all %}
               <tr>
                 <td>
+                  <b>
                   {% ifchanged items.emchilgee_list %}
+                    Эмчилгээний нэр:
                     {{ items.emchilgee_list }}
                   {% endifchanged %}
+                  </b>
                 </td>
-                <td> {{ forloop.counter }} </td>
-                <td> {{ items.name }} </td>
-                <td> {{ items.shirheg }} </td>
-                <td> {{ emchilgee.count_days }} </td>
+              </tr>
+              <tr>
                 <td>
-                  {% with numerator=items.shirheg denominator=emchilgee.count_days %}
-                    {{ numerator|div:denominator }}
-                  {% endwith %}
+                  <span style="padding-left: 30px;">
+                    {{ forloop.counter }} {{ items.name }}  эмийг {{ emchilgee.count_days }} хонгийн турш өдөрт
+                    {% with numerator=items.shirheg denominator=emchilgee.count_days %}
+                      {{ numerator|div:denominator }}
+                    {% endwith %}
+                    ширхэгийг ууна.
+                  </span>
                 </td>
               </tr>
             {% endfor %}

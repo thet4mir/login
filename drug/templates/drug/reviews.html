@@ -10,33 +10,17 @@
     <th> № </th>
     <th> Эмчлэгч  Сувилагч: </th>
     <th> Эмчлүүлэгч: </th>
-    <th> Эхлэх огноо: </th>
-    <th> Дуусах огноо: </th>
-    <th> Үндсэн онош: </th>
-    <th> Төлөв: </th>
+    <th> Нас: </th>
     <th>  </th>
   </thead>
   <tbody>
-    {% for items in emchilgee %}
+    {% for items in emchilgee_percostumer %}
       <tr>
         <td> {{ forloop.counter }} </td>
-        <td> {{ items.worker }} </td>
-        <td> {{ items.costumer }} </td>
-        <td> {{ items.start_date }} </td>
-        <td> {{ items.end_date }} </td>
-        <td> {{ items.onosh }} </td>
-        <td>
-          {% if items.is_started %}
-            {% if items.is_done %}
-              <span class="badge badge-success">Эмчилгээ дууссан.</span>
-            {% else %}
-              <span class="badge badge-warning">Эмчилгээ хийгдэж байгаа.</span>
-            {% endif %}
-          {% else %}
-            <span class="badge badge-danger">Эмчилгээ эхлээгүй.</span>
-          {% endif %}
-        </td>
-        <td> <a href="{% url 'drug:review_details' items.id %}" class="btn btn-info btn-xs">Дэлгэрэнгүй</a> </td>
+        <td> {{ request.user.worker }} </td>
+        <td> {{ items.costumer__firstname }} </td>
+        <td> {{ items.costumer__age }} </td>
+        <td> <a href="{% url 'drug:reviews_percostumer' items.costumer %}" class="btn btn-info btn-xs">Дэлгэрэнгүй</a> </td>
       </tr>
     {% endfor %}
   </tbody>

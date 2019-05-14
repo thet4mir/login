@@ -4,10 +4,13 @@ from . import views
 app_name = "drug"
 
 urlpatterns = [
+    url(r'^report/$', views.report, name="report"),
+
     url(r'^drug_detail/$', views.drug_detail, name="drug_detail"),
     url(r'^drug_order/$', views.drug_order, name="drug_order"),
 
     url(r'^reviews/$', views.reviews, name="reviews"),
+    url(r'^reviews_percostumer/(?P<id>[0-9]+)/$', views.reviews_percostumer, name="reviews_percostumer"),
     url(r'^review/(?P<id>[0-9]+)/$', views.review_details, name="review_details"),
 
     url(r'^onosh_new/$', views.onosh_create, name="onosh_create"),

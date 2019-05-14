@@ -14,6 +14,13 @@ import pprint
 
 # Create your views here.
 @login_required
+def report(request):
+    data = {}
+    template_name='drug/report.html'
+
+    return render(request, template_name, data)
+
+@login_required
 def drug_detail(request, template_name='drug/drug_detail.html'):
     data = {}
     drug_detail = Drug_detail.objects.all()
@@ -128,6 +135,14 @@ def history_list(request, template_name='drug/history_list.html'):
     return render(request, template_name, data)
 
 @login_required
+def reviews_percostumer(request, id):
+    data = {}
+    emchilgee_percostumer = Emchilgee.objects.filter(costumer = id)
+    template_name='drug/reviews_percostumer.html'
+    data['emchilgee_percostumer'] = emchilgee_percostumer
+    return render(request, template_name, data)
+
+@login_required
 def review_details(request, id):
     data = {}
     days = []
@@ -135,7 +150,10 @@ def review_details(request, id):
     temp_result = []
     button = True
     today = date.today()
+    emchilgee_percostumer = Emchilgee.objects.filter(costumer = id)
     emchilgee = get_object_or_404(Emchilgee, id=id)
+    costumer_id = Emchilgee.objects.filter(id=id).values('costumer')
+    pprint.pprint(costumer_id)
     costumer = Costumer.objects.filter(user=emchilgee.costumer)
     count_day = emchilgee.count_days()
 
@@ -162,11 +180,6 @@ def review_details(request, id):
         temp = emchilgee.start_date + timedelta(days=x)
         if emchilgee.days_of_emchilgee_set.all():
             for done in emchilgee.days_of_emchilgee_set.all():
-                pprint.pprint("****")
-                pprint.pprint(temp)
-                pprint.pprint('-----------')
-                pprint.pprint(done.day)
-                pprint.pprint('****')
                 if done.day == temp:
                     result[x] = "✔"
                     temp_result.append("✔")
@@ -194,6 +207,8 @@ def review_details(request, id):
 
     pprint.pprint(result)
 
+    data['id'] = costumer_id
+    data['emchilgee_percostumer'] = emchilgee_percostumer
     data['button'] = button
     data['result'] = result
     data['today'] = today
@@ -336,8 +351,13 @@ def reviews(request, template_name='drug/reviews.html'):
     today = date.today()
     doctor_review = Doctor_review.objects.all()
     costumer_review = Costumer_review.objects.all()
+    emchilgee_percostumer = Emchilgee.objects.filter(worker = request.user.worker).values('costumer','costumer__firstname', 'costumer__age').annotate(dcount=Count('costumer'))
+    for i in emchilgee_percostumer:
+        pprint.pprint(i)
+
     emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
 
+    data['emchilgee_percostumer'] = emchilgee_percostumer
     data['costumer_review'] = costumer_review
     data['doctor_review'] = doctor_review
     data['emchilgee'] = emchilgee
