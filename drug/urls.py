@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^drug_detail/$', views.drug_detail, name="drug_detail"),
     url(r'^drug_order/$', views.drug_order, name="drug_order"),
 
+    url(r'^commend/$', views.commend, name="commend"),
     url(r'^reviews/$', views.reviews, name="reviews"),
     url(r'^reviews_percostumer/(?P<id>[0-9]+)/$', views.reviews_percostumer, name="reviews_percostumer"),
     url(r'^review/(?P<id>[0-9]+)/$', views.review_details, name="review_details"),

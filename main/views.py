@@ -15,8 +15,6 @@ class HomePage(LoginRequiredMixin,TemplateView):
 def Home(request):
     data = {}
     all_work = []
-    pprint.pprint(request.user)
-    pprint.pprint(request.user.worker)
     if request.user.is_worker:
         pprint.pprint('worker')
         if request.user.worker.is_doctor():
@@ -40,7 +38,7 @@ def Home(request):
             #data['emchilgee'] = emchilgee
     else:
         user = Costumer.objects.filter(user=request.user)
-        #emchilgee = Emchilgee.objects.filter(costumer=request.user.costumer)
+        emchilgee = Emchilgee.objects.filter(costumer=request.user.costumer)
         #history = History.objects.filter(costumer=request.user.costumer)
         #data['history'] = history
         #data['emchilgee'] = emchilgee

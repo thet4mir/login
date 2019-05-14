@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h4>Эмчилгээ харах</h4>
+<table class="table">
+<thead>
+    <tr>
+      <th> Сувилагч </th>
+      <th> Өвчтөн </th>
+      <th> Онош </th>
+      <th> Төлөв </th>
+      <th> Өвчтөний үнэлгээ </th>
+      <th> Эмчийн нэр: </th>
+      <th> Эмчийн үнэлгээ </th>
+    </tr>
+</thead>
+  <tbody>
+      {% for drug in emchilgee %}
+        <tr>
+          <td>{{ drug.worker }}</td>
+          <td>{{ drug.costumer }}</td>
+          <td>{{ drug.onosh }}</td>
+          <td>
+            <span class="badge badge-success">Эмчилгээ дууссан.</span>
+          </td>
+          <td>
+            {% for review in costumer_review %}
+              {% if drug.id == review.emchilgee %}
+                {% if review.review == 1 %}
+                  <a href="" class="btn btn-danger btn-lg">★</a>
+                {% elif review.review == 2%}
+                  <a href="" class="btn btn-warning btn-lg">★ ★</a>
+                {% elif review.review == 3%}
+                  <a href="" class="btn btn-info btn-lg">★ ★ ★</a>
+                {% elif review.review == 4%}
+                  <a href="" class="btn btn-primary btn-lg">★ ★ ★ ★</a>
+                {% elif review.review == 5 %}
+                  <a href="" class="btn btn-success btn-lg">★ ★ ★ ★ ★</a>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </td>
+            {% for items in doctor_review %}
+              {% if drug.id == items.emchilgee %}
+                <td>
+                  {{ items.doctor }}
+                </td>
+                <td>
+                  <span>
+
+                    {% if items.review == 1 %}
+                      <div class="form-check form-check-inline">
+                        <a href="" class="btn btn-danger btn-lg">★</a>
+                      </div>
+                    {% elif items.review == 2%}
+                      <div class="form-check form-check-inline">
+                        <a href="" class="btn btn-warning btn-lg">★ ★</a>
+                      </div>
+                    {% elif items.review == 3%}
+                      <div class="form-check form-check-inline">
+                        <a href="" class="btn btn-info btn-lg">★ ★ ★</a>
+                      </div>
+                    {% elif items.review == 4%}
+                      <div class="form-check form-check-inline">
+                        <a href="" class="btn btn-primary btn-lg">★ ★ ★ ★</a>
+                      </div>
+                    {% elif items.review == 5 %}
+                      <div class="form-check form-check-inline">
+                        <a href="" class="btn btn-success btn-lg">★ ★ ★ ★ ★</a>
+                      </div>
+                    {% endif %}
+                  </span>
+                </td>
+              {% endif %}
+            {% endfor %}
+        </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

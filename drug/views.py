@@ -344,6 +344,25 @@ def add_recived_date(request, id):
     return redirect('drug:drug_order')
 
 @login_required
+def commend(request, template_name='drug/commend.html'):
+    data = {}
+    temp = []
+    today = date.today()
+    doctor_review = Doctor_review.objects.all()
+    costumer_review = Costumer_review.objects.all()
+    emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
+    for item in emchilgee:
+        if item.end_date < today:
+            temp.append(item)
+
+    emchilgee = temp
+    data['costumer_review'] = costumer_review
+    data['doctor_review'] = doctor_review
+    data['emchilgee'] = emchilgee
+
+    return render(request, template_name, data)
+
+@login_required
 def reviews(request, template_name='drug/reviews.html'):
     data = {}
     temp = []
