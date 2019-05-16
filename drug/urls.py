@@ -4,7 +4,7 @@ from . import views
 app_name = "drug"
 
 urlpatterns = [
-    url(r'^report/$', views.report, name="report"),
+    url(r'^report_drug/$', views.report_drug, name="report_drug"),
 
     url(r'^drug_detail/$', views.drug_detail, name="drug_detail"),
     url(r'^drug_order/$', views.drug_order, name="drug_order"),

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% load staticfiles %}
+
+{% block content %}
+<h1>Гүйцэтгэлийн Тайлан</h1>
+<table class="table">
+  <thead>
+    <th> ID </th>
+    <th> Онош нэр </th>
+    <th> Эмчлүүлэгчийн нэр </th>
+    <th> Эмчилгээ хийх<br>нийт хоног </th>
+    <th> Хийгдсэн хоног </th>
+    <th> Хийгдээгүй хоног </th>
+  </thead>
+  <tbody>
+    {% for items in emchilgee %}
+      <tr>
+        <td> {{items.id}} </td>
+        <td>
+          {{ items.onosh }}
+        </td>
+        <td>
+          {{ items.costumer }}
+        </td>
+        <td>
+          {{ items.count_days }} хоног
+        </td>
+
+          {% if items.days_of_emchilgee_set.all %}
+            {% for data in items.days_of_emchilgee_set.all %}
+              {% if forloop.last %}
+                <td>
+                  {{ forloop.counter }}хоног
+                </td>
+                <td>
+                  {% with numerator=items.count_days denominator=forloop.counter %}
+                    {{ numerator|sub:denominator }} хоног <br>
+                  {% endwith %}
+                  {% for data in items.drug_important_set.all %}
+                  {% ifchanged data.emchilgee_list %}
+                    <b> {{ data.emchilgee_list }} </b><br>
+                  {% endifchanged %}
+                    {{ data.name }} <br>
+                  {% endfor %}
+                </td>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <td>
+              0 хоног
+            </td>
+            <td>
+              {{ items.count_days }} хоног <br>
+              {% for data in items.drug_important_set.all %}
+                {% ifchanged data.emchilgee_list %}
+                  <b> {{ data.emchilgee_list }} </b> <br>
+                {% endifchanged %}
+                   {{ data.name }} <br>
+              {% endfor %}
+            </td>
+          {% endif %}
+      </tr>
+    {% endfor %}
+    <tr class="thead-light">
+      <th>
+        Нийт
+      </th>
+      <th>
+
+      </th>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

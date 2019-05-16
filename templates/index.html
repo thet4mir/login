@@ -51,9 +51,7 @@
   <div class="col-md-8">
     {% if request.user.is_worker %}
       {% if request.user.worker.is_doctor %}
-        <span> doctor </span>
       {% else %}
-        <span> nurse </span>
         <table class="table table-striped">
           <thead>
             <th> № </th>

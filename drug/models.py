@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from datetime import date, timedelta
 import datetime
 import pprint
+
 # Create your models here.
 class Drug_category(models.Model):
     name = models.CharField(max_length=100)
@@ -66,7 +67,7 @@ class Days_of_emchilgee(models.Model):
 
     def __str__(self):
         return str(self.emchilgee.id)
-        
+
 class Emchilgee_list(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     code = models.CharField(max_length=200, null=True, blank=True)

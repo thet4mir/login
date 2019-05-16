@@ -14,10 +14,24 @@ import pprint
 
 # Create your views here.
 @login_required
-def report(request):
+def report_drug(request):
     data = {}
-    template_name='drug/report.html'
+    today = date.today()
+    temp_emchilgee = []
+    temp_drug_important = []
+    temp_days_of_emchilgee = []
 
+    emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
+    for items in emchilgee:
+        if items.drug_important_set.all() and items.end_date <= today:
+            temp_emchilgee.append(items)
+        for x in items.days_of_emchilgee_set.all():
+            temp_days_of_emchilgee.append(x)
+    
+    pprint.pprint(temp_emchilgee)
+    template_name='drug/report_drug.html'
+    data['days_of_emchilgee'] = temp_days_of_emchilgee
+    data['emchilgee'] = temp_emchilgee
     return render(request, template_name, data)
 
 @login_required
