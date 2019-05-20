@@ -6,7 +6,7 @@ import django_filters
 class EmchilgeeFilter(django_filters.FilterSet):
     class Meta:
         model = Emchilgee
-        fields = ['costumer']
+        fields = ['costumer','onosh']
 
 class CostumerFilter(django_filters.FilterSet):
     class Meta:

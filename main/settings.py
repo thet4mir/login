@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap3',
     'mathfilters',
+    'widget_tweaks',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
