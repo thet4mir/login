@@ -52,6 +52,14 @@
     {% if request.user.is_worker %}
       {% if request.user.worker.is_doctor %}
       {% else %}
+        <form method="get">
+          <div class="form-row">
+            <div class="form-group col-md-12 mb-0">
+              {{ emchilgee.form.as_p }}
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Search</button>
+        </form>
         <table class="table table-striped">
           <thead>
             <th> № </th>
@@ -62,7 +70,7 @@
             <th>  </th>
           </thead>
           <tbody>
-            {% for items in emchilgee %}
+            {% for items in emchilgee.qs %}
               <tr>
                 <td> {{ forloop.counter }} </td>
                 <td> {{ items.costumer }} </td>

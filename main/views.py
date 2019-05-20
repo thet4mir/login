@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from account.models import Worker, User, Costumer
 from drug.models import History, Emchilgee, Doctor_review, Costumer_review
+from .filter import CostumerFilter, EmchilgeeFilter
 import pprint
 class HomePage(LoginRequiredMixin,TemplateView):
     login_url='/account/login/'
@@ -30,6 +31,7 @@ def Home(request):
             user = Worker.objects.filter(user=request.user)
             pprint.pprint(request.user)
             emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
+            emchilgee_filter = EmchilgeeFilter(request.GET, queryset=emchilgee)
             pprint.pprint('****')
             #emchilgee = Emchilgee.objects.all()
             #history = History.objects.all()
@@ -44,7 +46,7 @@ def Home(request):
         #data['emchilgee'] = emchilgee
 
     #data['costumer_review'] = Costumer_review.objects.all()
-    data['emchilgee'] = emchilgee
+    data['emchilgee'] = emchilgee_filter
     data['user'] = user
     template_name = 'index.html'
     return render(request, template_name, data)
