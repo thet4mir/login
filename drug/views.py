@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.db import transaction, IntegrityError
-from django.db.models import Sum, Q, Count
+from django.db.models import Sum, Q, Count, Prefetch
 from datetime import date, timedelta
 import datetime
 
@@ -27,7 +27,7 @@ def report_drug(request):
             temp_emchilgee.append(items)
         for x in items.days_of_emchilgee_set.all():
             temp_days_of_emchilgee.append(x)
-    
+
     pprint.pprint(temp_emchilgee)
     template_name='drug/report_drug.html'
     data['days_of_emchilgee'] = temp_days_of_emchilgee
@@ -150,13 +150,36 @@ def history_list(request, template_name='drug/history_list.html'):
 
 @login_required
 def reviews_percostumer(request, id):
+    today = date.today()
     data = {}
-    emchilgee_percostumer = Emchilgee.objects.filter(costumer = id)
+    emchilgee_percostumer = Emchilgee.objects.filter(costumer = id).filter(worker = request.user.worker).filter(end_date__gte=today)
+
     template_name='drug/reviews_percostumer.html'
     data['emchilgee_percostumer'] = emchilgee_percostumer
     return render(request, template_name, data)
 
 @login_required
+def review_details_new(request, id):
+    today = date.today()
+    data = {}
+    emchilgee_percostumer = Emchilgee.objects.filter(costumer = id)
+    emchilgee = get_object_or_404(Emchilgee, id=id)
+    drug = Drug_important.objects.filter(emchilgee = emchilgee).prefetch_related('name')
+
+    for items in drug:
+        days_of_emchilgee = Days_of_emchilgee.objects.get_or_create(emchilgee = emchilgee, day = today, drug = items)
+
+    days_of_emchilgee = Days_of_emchilgee.objects.filter(emchilgee = emchilgee, day = today).prefetch_related('drug__name')
+
+    costumer = Costumer.objects.filter(user=emchilgee.costumer)
+
+    template_name='drug/review_details_new.html'
+    data['costumer'] = costumer
+    data['emchilgee'] = emchilgee
+    data['days_of_emchilgee'] = days_of_emchilgee
+
+    return render(request, template_name, data)
+
 def review_details(request, id):
     data = {}
     days = []
@@ -218,8 +241,6 @@ def review_details(request, id):
             else:
                 result[x] = "*"
                 temp_result.append("*")
-
-    pprint.pprint(result)
 
     data['id'] = costumer_id
     data['emchilgee_percostumer'] = emchilgee_percostumer
@@ -581,3 +602,26 @@ def make_review_5(request, emchilgee_id):
             costumer_review.review = 5
             costumer_review.save()
             return redirect('drug:costumer_emchilgee_list')
+@login_required
+def morning(request, id):
+    rsp = get_object_or_404(Days_of_emchilgee.objects.select_related('emchilgee'), id = id)
+
+    rsp.is_done_morning = True
+    rsp.save()
+    return redirect('drug:review_details_new', id = rsp.emchilgee.id)
+
+@login_required
+def afternoon(request, id):
+    rsp = get_object_or_404(Days_of_emchilgee.objects.select_related('emchilgee'), id = id)
+
+    rsp.is_done_aternoon = True
+    rsp.save()
+    return redirect('drug:review_details_new', id = rsp.emchilgee.id)
+
+@login_required
+def evening(request, id):
+    rsp = get_object_or_404(Days_of_emchilgee.objects.select_related('emchilgee'), id = id)
+
+    rsp.is_done_evening = True
+    rsp.save()
+    return redirect('drug:review_details_new', id = rsp.emchilgee.id)

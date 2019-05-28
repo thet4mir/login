@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load mathfilters %}
+
+{% block content %}
+{% for objects in costumer %}
+<div class="row">
+  <div class="col-md-4">
+      {% for x in id %}
+        <a href="{% url 'drug:reviews_percostumer' x.costumer %}" class="btn btn-info btn-xs">Буцах</a>
+      {% endfor %}
+      <h4 class="text-center"> Эмчлүүлэгчийн <br> ерөнхий мэдээлэл </h4>
+      <table class="list hoverable">
+        <tbody>
+            <tr>
+              <td> <b>Овог:</b> </td>
+              <td> {{objects.lastname}} </td>
+            </tr>
+            <tr>
+              <td><b> Нэр: </b></td>
+              <td> {{objects.firstname}} </td>
+            </tr>
+            <tr>
+              <td><b> Регистр №: </b></td>
+              <td> {{objects.register}} </td>
+            </tr>
+            <tr>
+              <td><b> Хүйс: </b></td>
+              <td> {{objects.gender}} </td>
+            </tr>
+            <tr>
+              <td><b> Нас: </b></td>
+              <td> {{objects.age}} </td>
+            </tr>
+            <tr>
+              <td><b> Нэмэлт мэдээлэл: </b></td>
+              <td> {{objects.description}} </td>
+            </tr>
+        </tbody>
+      </table>
+  </div>
+  {% endfor %}
+  <div class="col-md-8">
+    <div class="card bg-light my-3">
+      <div class="card-body text-left">
+        <h4 class="text-center"> Онош дахь эмчилгээ </h4>
+        <table>
+          <tbody>
+            <tr>
+              <th> Онош: </th>
+              <td> {{ emchilgee.onosh }} </td>
+            </tr>
+            <tr>
+              <th> Эхлэх огноо: </th>
+              <td> {{ emchilgee.start_date }} </td>
+            </tr>
+            <tr>
+              <th> Дуусах огноо: </th>
+              <td> {{ emchilgee.end_date }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card bg-light my-3">
+      <div class="card-body text-left">
+        <table class="table table-responsive">
+          <thead>
+            <tr class="thead-light">
+              <th> Эмчилгээ </th>
+              <th> Эмийн нэр </th>
+              <th> Өглөө </th>
+              <th> Өдөр </th>
+              <th> Орой </th>
+            </tr>
+          </thead>
+          <tbody>
+            <form method="GET">
+                {% csrf_token %}
+                {% for items in days_of_emchilgee %}
+                  <tr class="thead-light">
+                    <td>
+                      {% ifchanged items.emchilgee_list %}
+                          {{ items.drug.emchilgee_list }}
+                      {% endifchanged %}
+                    </td>
+                    <td>
+                      {{ items.drug.name }}
+                    </td>
+                    <td>
+                      {% if items.is_done_morning %}
+                        <span class="badge badge-success"> ✔ </span>
+                      {% else %}
+                        <a href="{% url 'drug:morning' items.id %}"> ✘ </a>
+                      {% endif %}
+                    </td>
+                    <td>
+
+                      {% if items.drug.name.drug_catedory.name == 'Эм' %}
+                        {% if items.is_done_aternoon %}
+                          <span class="badge badge-success"> ✔ </span>
+                        {% else %}
+                          <a href="{% url 'drug:afternoon' items.id %}"> ✘ </a>
+                        {% endif %}
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if items.is_done_evening %}
+                        <span class="badge badge-success"> ✔ </span>
+                      {% else %}
+                        <a href="{% url 'drug:evening' items.id %}"> ✘ </a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+            </form>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

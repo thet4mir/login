@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^reviews/$', views.reviews, name="reviews"),
     url(r'^reviews_percostumer/(?P<id>[0-9]+)/$', views.reviews_percostumer, name="reviews_percostumer"),
     url(r'^review/(?P<id>[0-9]+)/$', views.review_details, name="review_details"),
+    url(r'^review_new/(?P<id>[0-9]+)/$', views.review_details_new, name="review_details_new"),
 
     url(r'^onosh_new/$', views.onosh_create, name="onosh_create"),
     url(r'^onosh_list/$', views.onosh_list, name="onosh_list"),
@@ -28,6 +29,10 @@ urlpatterns = [
     url(r'^emchilgee_list_done/$', views.emchilgee_list_done, name="emchilgee_list_done"),
 
     url(r'^add_recived_date/(?P<id>[0-9]+)/$', views.add_recived_date, name = "add_recived_date"),
+
+    url(r'^morning/(?P<id>[0-9]+)/$', views.morning, name="morning"),
+    url(r'^afternoon/(?P<id>[0-9]+)/$', views.afternoon, name="afternoon"),
+    url(r'^evening/(?P<id>[0-9]+)/$', views.evening, name="evening"),
 
     url(r'^make_review_1/(?P<emchilgee_id>[0-9]+)/$', views.make_review_1, name="make_review_1"),
     url(r'^make_review_2/(?P<emchilgee_id>[0-9]+)/$', views.make_review_2, name="make_review_2"),

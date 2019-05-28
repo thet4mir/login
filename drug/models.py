@@ -30,7 +30,9 @@ class Drug_detail(models.Model):
 
     def __str__(self):
         return self.name
-
+    def is_drug(self):
+        return self.drug_catedory.name == "Эм"
+        
 class Onosh(models.Model):
     category    = models.CharField(max_length=200, null=True, blank=True)
     disc        = models.CharField(max_length=400, null=True, blank=True)
@@ -60,14 +62,6 @@ class Emchilgee(models.Model):
         result = self.end_date + timedelta(days=1) - self.start_date
         return int(result.days)
 
-class Days_of_emchilgee(models.Model):
-    emchilgee               = models.ForeignKey(Emchilgee, on_delete=models.CASCADE, default=1)
-    day                     = models.DateField(default=timezone.now)
-    is_done                 = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.emchilgee.id)
-
 class Emchilgee_list(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     code = models.CharField(max_length=200, null=True, blank=True)
@@ -93,6 +87,18 @@ class Drug_important(models.Model):
 
     def __str__(self):
         return self.name.name
+
+class Days_of_emchilgee(models.Model):
+    emchilgee               = models.ForeignKey(Emchilgee, on_delete=models.CASCADE, default=1)
+    day                     = models.DateField(default=timezone.now)
+    drug                    = models.ForeignKey(Drug_important, on_delete=models.CASCADE, default=1)
+    category                = models.CharField(max_length=100, null=True, blank=True)
+    is_done_morning         = models.BooleanField(default=False)
+    is_done_aternoon        = models.BooleanField(default=False)
+    is_done_evening         = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.emchilgee.id)
 
 class Drug_order_status(models.Model):
     name    = models.CharField(max_length=100)
