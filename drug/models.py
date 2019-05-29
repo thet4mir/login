@@ -32,7 +32,7 @@ class Drug_detail(models.Model):
         return self.name
     def is_drug(self):
         return self.drug_catedory.name == "Эм"
-        
+
 class Onosh(models.Model):
     category    = models.CharField(max_length=200, null=True, blank=True)
     disc        = models.CharField(max_length=400, null=True, blank=True)
@@ -85,8 +85,6 @@ class Drug_important(models.Model):
     shirheg                 = models.IntegerField(default=0)
     is_ordered              = models.BooleanField('ordered_status', default=False)
 
-    def __str__(self):
-        return self.name.name
 
 class Days_of_emchilgee(models.Model):
     emchilgee               = models.ForeignKey(Emchilgee, on_delete=models.CASCADE, default=1)
