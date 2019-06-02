@@ -14,12 +14,49 @@ import pprint
 
 # Create your views here.
 @login_required
+def report_order(request):
+    data = {}
+    today = date.today()
+
+    emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
+    drug_detail = Drug_detail.objects.all()
+
+    for item in emchilgee:
+        drug = Drug_important.objects.filter(emchilgee = item).prefetch_related('name')
+        days_of_emchilgee = Days_of_emchilgee.objects.filter(emchilgee = item, day = today).prefetch_related('drug__name')
+        all_drug_details = Drug_detail.objects.all()
+
+    template_name='drug/report_order.html'
+    data['drug_detail'] = drug_detail
+    data['days_of_emchilgee'] = days_of_emchilgee
+    data['emchilgee'] = emchilgee
+
+    return render(request, template_name, data)
+
+@login_required
+def report_resource(request):
+    data = {}
+    today = date.today()
+
+    emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
+    drug_detail = Drug_detail.objects.all()
+
+    for item in emchilgee:
+        drug = Drug_important.objects.filter(emchilgee = item).prefetch_related('name')
+        days_of_emchilgee = Days_of_emchilgee.objects.filter(emchilgee = item, day = today).prefetch_related('drug__name')
+        all_drug_details = Drug_detail.objects.all()
+
+    template_name='drug/report_resource.html'
+    data['drug_detail'] = drug_detail
+    data['days_of_emchilgee'] = days_of_emchilgee
+    data['emchilgee'] = emchilgee
+
+    return render(request, template_name, data)
+
+@login_required
 def report_drug(request):
     data = {}
     today = date.today()
-    temp_emchilgee = []
-    temp_drug_important = []
-    temp_days_of_emchilgee = []
 
     emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
     for items in emchilgee:
@@ -166,9 +203,6 @@ def review_details_new(request, id):
     emchilgee = get_object_or_404(Emchilgee, id=id)
     drug = Drug_important.objects.filter(emchilgee = emchilgee).prefetch_related('name')
 
-    for items in drug:
-        days_of_emchilgee = Days_of_emchilgee.objects.get_or_create(emchilgee = emchilgee, day = today, drug = items)
-
     days_of_emchilgee = Days_of_emchilgee.objects.filter(emchilgee = emchilgee, day = today).prefetch_related('drug__name')
 
     costumer = Costumer.objects.filter(user=emchilgee.costumer)
@@ -177,79 +211,6 @@ def review_details_new(request, id):
     data['costumer'] = costumer
     data['emchilgee'] = emchilgee
     data['days_of_emchilgee'] = days_of_emchilgee
-
-    return render(request, template_name, data)
-
-def review_details(request, id):
-    data = {}
-    days = []
-    result = {}
-    temp_result = []
-    button = True
-    today = date.today()
-    emchilgee_percostumer = Emchilgee.objects.filter(costumer = id)
-    emchilgee = get_object_or_404(Emchilgee, id=id)
-    costumer_id = Emchilgee.objects.filter(id=id).values('costumer')
-    pprint.pprint(costumer_id)
-    costumer = Costumer.objects.filter(user=emchilgee.costumer)
-    count_day = emchilgee.count_days()
-
-    day_of_emchilgee = Days_of_emchilgee.objects.filter(emchilgee = emchilgee)
-
-    if request.method == "POST":
-        emchilgee_id = request.POST.get('emchilgee')
-        emchilgee = get_object_or_404(Emchilgee, id=emchilgee_id)
-
-        day_of_emchilgee = Days_of_emchilgee()
-        day_of_emchilgee.emchilgee = emchilgee
-        day_of_emchilgee.day = today
-        day_of_emchilgee.is_done = True
-        day_of_emchilgee.save()
-
-    template_name='drug/review_details.html'
-    for done in emchilgee.days_of_emchilgee_set.all():
-        if done.day == today:
-            button = False
-            break
-
-    for x in range(count_day):
-        days.append(emchilgee.start_date + timedelta(days=x))
-        temp = emchilgee.start_date + timedelta(days=x)
-        if emchilgee.days_of_emchilgee_set.all():
-            for done in emchilgee.days_of_emchilgee_set.all():
-                if done.day == temp:
-                    result[x] = "✔"
-                    temp_result.append("✔")
-                    break
-                else:
-                    if temp < today:
-                        result[x] = "✘"
-                        temp_result.append("✘")
-                    elif temp == today:
-                        result[x] = "?"
-                        temp_result.append("?")
-                    else:
-                        result[x] = "*"
-                        temp_result.append("*")
-        else:
-            if temp < today:
-                result[x] = "✘"
-                temp_result.append("✘")
-            elif temp == today:
-                result[x] = "?"
-                temp_result.append("?")
-            else:
-                result[x] = "*"
-                temp_result.append("*")
-
-    data['id'] = costumer_id
-    data['emchilgee_percostumer'] = emchilgee_percostumer
-    data['button'] = button
-    data['result'] = result
-    data['today'] = today
-    data['days'] = days
-    data['costumer'] = costumer
-    data['emchilgee'] = emchilgee
 
     return render(request, template_name, data)
 

@@ -8,6 +8,11 @@ class EmchilgeeFilter(django_filters.FilterSet):
         model = Emchilgee
         fields = ['costumer','onosh']
 
+    def __init__(self, *args, **kwargs):
+        super(EmchilgeeFilter, self).__init__(*args, **kwargs)
+        self.filters['costumer'].label="Эмчлүүлэгч"
+        self.filters['onosh'].label="Онош"
+
 class CostumerFilter(django_filters.FilterSet):
     class Meta:
         model = Costumer

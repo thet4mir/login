@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% load staticfiles %}
+
+{% block content %}
+<h1>Захиалгын Тайлан</h1>
+<table class="table">
+  <thead>
+    <th> ID </th>
+    <th> Эмийн нэр </th>
+    <th> Төрөл </th>
+    <th> Нийт захиалга </th>
+  </thead>
+  <tbody>
+    {% for items in drug_detail %}
+      <tr>
+        <td> {{forloop.counter}} </td>
+        <td>
+          {{ items.name }}
+        </td>
+        <td>
+          {{ items.drug_catedory }}
+        </td>
+        <td>
+          {{ items.drug_sum }} ширхэг
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

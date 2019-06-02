@@ -30,9 +30,27 @@ class Drug_detail(models.Model):
 
     def __str__(self):
         return self.name
+
     def is_drug(self):
         return self.drug_catedory.name == "Эм"
-        
+
+    def drug_sum(self):
+        sum = 0
+        per_drug = Drug_important.objects.filter(name = self)
+        for drug in per_drug:
+            sum = sum + drug.shirheg
+        return sum
+
+    def sum_per_drug(self):
+        sum = 0
+        per_drug = Drug_important.objects.filter(name = self)
+        for drug in per_drug:
+            sum = sum + drug.shirheg
+
+        day_of_emchilgee = Days_of_emchilgee.objects.filter()
+
+        return sum
+
 class Onosh(models.Model):
     category    = models.CharField(max_length=200, null=True, blank=True)
     disc        = models.CharField(max_length=400, null=True, blank=True)
@@ -88,6 +106,36 @@ class Drug_important(models.Model):
     def __str__(self):
         return self.name.name
 
+    def report(self):
+        days =  self.emchilgee.end_date + timedelta(days=1) - self.emchilgee.start_date
+        drugs = Days_of_emchilgee.objects.filter(drug = self).prefetch_related('emchilgee')
+        all_work = [None for i in range(int(days.days))]
+
+        for i in range(int(days.days)):
+            all_work[i] = self.emchilgee.start_date + timedelta(days=i)
+
+        for drug in drugs:
+            date = drug.day - drug.emchilgee.start_date
+            all_work[int(date.days)] = drug
+
+        return all_work
+
+    def drug_resource(self):
+        days =  self.emchilgee.end_date + timedelta(days=1) - self.emchilgee.start_date
+        drugs = Days_of_emchilgee.objects.filter(drug = self).prefetch_related('emchilgee')
+        sum = self.shirheg
+        all_work = [None for i in range(int(days.days))]
+
+        for drug in drugs:
+            if drug.is_done_morning:
+                sum = sum - 1
+            if drug.is_done_aternoon:
+                sum = sum - 1
+            if drug.is_done_evening:
+                sum = sum - 1
+
+        return sum
+
 class Days_of_emchilgee(models.Model):
     emchilgee               = models.ForeignKey(Emchilgee, on_delete=models.CASCADE, default=1)
     day                     = models.DateField(default=timezone.now)
@@ -99,6 +147,7 @@ class Days_of_emchilgee(models.Model):
 
     def __str__(self):
         return str(self.emchilgee.id)
+
 
 class Drug_order_status(models.Model):
     name    = models.CharField(max_length=100)

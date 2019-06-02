@@ -5,6 +5,8 @@ app_name = "drug"
 
 urlpatterns = [
     url(r'^report_drug/$', views.report_drug, name="report_drug"),
+    url(r'^report_order/$', views.report_order, name="report_order"),
+    url(r'^report_resource/$', views.report_resource, name="report_resource"),
 
     url(r'^drug_detail/$', views.drug_detail, name="drug_detail"),
     url(r'^drug_order/$', views.drug_order, name="drug_order"),
@@ -12,7 +14,6 @@ urlpatterns = [
     url(r'^commend/$', views.commend, name="commend"),
     url(r'^reviews/$', views.reviews, name="reviews"),
     url(r'^reviews_percostumer/(?P<id>[0-9]+)/$', views.reviews_percostumer, name="reviews_percostumer"),
-    url(r'^review/(?P<id>[0-9]+)/$', views.review_details, name="review_details"),
     url(r'^review_new/(?P<id>[0-9]+)/$', views.review_details_new, name="review_details_new"),
 
     url(r'^onosh_new/$', views.onosh_create, name="onosh_create"),

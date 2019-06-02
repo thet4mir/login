@@ -63,7 +63,7 @@
                 {{ emchilgee.form.onosh|as_crispy_field }}
               </div>
             </div>
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary" type="submit">Хайх</button>
           </div>
         </form>
         <table class="table table-striped">
@@ -80,8 +80,8 @@
               <tr>
                 <td> {{ forloop.counter }} </td>
                 <td> {{ items.costumer }} </td>
-                <td> {{ items.start_date }} </td>
-                <td> {{ items.end_date }} </td>
+                <td> {{ items.start_date |date:"Y/m/d" }} </td>
+                <td> {{ items.end_date |date:"Y/m/d" }} </td>
                 <td> {{ items.onosh }} </td>
                 <td>
                   <a href="{% url 'drug:emchilgee_details' items.id %}" class="btn btn-info btn-xs">Дэлгэрэнгүй</a>

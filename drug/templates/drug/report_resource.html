@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% load staticfiles %}
+
+{% block content %}
+<h1>Гүйцэтгэлийн Тайлан</h1>
+<table class="table">
+  <thead>
+    <th> ID </th>
+    <th> Онош нэр </th>
+    <th> Эмчлүүлэгчийн нэр </th>
+    <th> Эмчилгээ хийх<br>нийт хоног </th>
+    <th> Нийт эм </th>
+    <th> Эмийн үлдэгдэл </th>
+  </thead>
+  <tbody>
+    {% for items in emchilgee %}
+      <tr>
+        <td> {{items.id}} </td>
+        <td>
+          {{ items.onosh }}
+        </td>
+        <td>
+          {{ items.costumer }}
+        </td>
+        <td>
+          {{ items.count_days }} хоног
+        </td>
+          {% if items.days_of_emchilgee_set.all %}
+            <td>
+              {% for data in items.drug_important_set.all %}
+                {{ data.name }}: {{ data.shirheg }}<br>
+              {% endfor %}
+            </td>
+            <td>
+              {% for data in items.drug_important_set.all %}
+                {{ data.name }}: {{ data.drug_resource }}<br>
+              {% endfor %}
+            </td>
+          {% else %}
+            <td>
+              Эмчилгээнд ямар нэг эм байхгүй.
+            </td>
+            <td>
+              Эмчилгээнд ямар нэг эм байхгүй.
+            </td>
+          {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

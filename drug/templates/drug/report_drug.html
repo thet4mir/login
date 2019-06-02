@@ -11,7 +11,6 @@
     <th> Эмчлүүлэгчийн нэр </th>
     <th> Эмчилгээ хийх<br>нийт хоног </th>
     <th> Хийгдсэн хоног </th>
-    <th> Хийгдээгүй хоног </th>
   </thead>
   <tbody>
     {% for items in emchilgee %}
@@ -26,38 +25,41 @@
         <td>
           {{ items.count_days }} хоног
         </td>
-
           {% if items.days_of_emchilgee_set.all %}
-            {% for data in items.days_of_emchilgee_set.all %}
-              {% if forloop.last %}
-                <td>
-                  {{ forloop.counter }}хоног
-                </td>
-                <td>
-                  {% with numerator=items.count_days denominator=forloop.counter %}
-                    {{ numerator|sub:denominator }} хоног <br>
-                  {% endwith %}
-                  {% for data in items.drug_important_set.all %}
-                  {% ifchanged data.emchilgee_list %}
-                    <b> {{ data.emchilgee_list }} </b><br>
-                  {% endifchanged %}
-                    {{ data.name }} <br>
-                  {% endfor %}
-                </td>
-              {% endif %}
-            {% endfor %}
+            <td>
+              {% for data in items.drug_important_set.all %}
+                {{ data.name }}<br>
+                {% for day_of_emchilgee in data.report %}
+                  {% if day_of_emchilgee.emchilgee %}
+                    {{ day_of_emchilgee.day |date:"Y/m/d"}}
+                    {% if day_of_emchilgee.is_done_morning %}
+                      <span class="badge badge-success"> ✔ </span>
+                    {% else %}
+                      <span class="badge badge-danger"> ✘ </span>
+                    {% endif %}
+                    {% if day_of_emchilgee.is_done_aternoon %}
+                      <span class="badge badge-success"> ✔ </span>
+                    {% else %}
+                      <span class="badge badge-danger"> ✘ </span>
+                    {% endif %}
+                    {% if day_of_emchilgee.is_done_evening %}
+                      <span class="badge badge-success"> ✔ </span>
+                    {% else %}
+                      <span class="badge badge-danger"> ✘ </span>
+                    {% endif %}
+                  {% else %}
+                    {{ day_of_emchilgee |date:"Y/m/d"}}
+                    <span class="badge badge-danger"> ✘ </span>
+                    <span class="badge badge-danger"> ✘ </span>
+                    <span class="badge badge-danger"> ✘ </span>
+                  {% endif %}
+                  <br>
+                {% endfor %}
+              {% endfor %}
+            </td>
           {% else %}
             <td>
               0 хоног
-            </td>
-            <td>
-              {{ items.count_days }} хоног <br>
-              {% for data in items.drug_important_set.all %}
-                {% ifchanged data.emchilgee_list %}
-                  <b> {{ data.emchilgee_list }} </b> <br>
-                {% endifchanged %}
-                   {{ data.name }} <br>
-              {% endfor %}
             </td>
           {% endif %}
       </tr>
