@@ -22,6 +22,7 @@ def Home(request):
             pprint.pprint('doctor')
             user = Worker.objects.filter(user=request.user)
             emchilgee = Emchilgee.objects.all()
+            emchilgee_filter = EmchilgeeFilter(request.GET, queryset=emchilgee)
             #history = History.objects.filter(doctor = request.user.worker)
             #data['doctor_review'] =Doctor_review.objects.all()
             #data['history'] = history

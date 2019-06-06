@@ -49,11 +49,11 @@
             </tr>
             <tr>
               <th> Эхлэх огноо: </th>
-              <td> {{ emchilgee.start_date }} </td>
+              <td> {{ emchilgee.start_date | date:"Y/m/d" }} </td>
             </tr>
             <tr>
               <th> Дуусах огноо: </th>
-              <td> {{ emchilgee.end_date }} </td>
+              <td> {{ emchilgee.end_date | date:"Y/m/d"}} </td>
             </tr>
           </tbody>
         </table>

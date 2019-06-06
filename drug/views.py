@@ -57,6 +57,8 @@ def report_resource(request):
 def report_drug(request):
     data = {}
     today = date.today()
+    temp_emchilgee = []
+    temp_days_of_emchilgee = []
 
     emchilgee = Emchilgee.objects.filter(worker = request.user.worker)
     for items in emchilgee:

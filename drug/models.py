@@ -34,7 +34,6 @@ class Drug_detail(models.Model):
     def is_drug(self):
         return self.drug_catedory.name == "Эм"
 
-<<<<<<< HEAD
     def drug_sum(self):
         sum = 0
         per_drug = Drug_important.objects.filter(name = self)
@@ -52,8 +51,6 @@ class Drug_detail(models.Model):
 
         return sum
 
-=======
->>>>>>> 3097642d6cab9b09bd973b3c40aac03ca7beead2
 class Onosh(models.Model):
     category    = models.CharField(max_length=200, null=True, blank=True)
     disc        = models.CharField(max_length=400, null=True, blank=True)

@@ -50,6 +50,44 @@
   </div>
   <div class="col-md-8">
     {% if request.user.is_worker %}
+    <form method="get">
+      <div class="well">
+        <h4 style="margin-top: 0">Хайлт</h4>
+        <div class="form-row">
+          <div class="form-group col-md-6 mb-0">
+            {{ emchilgee.form.costumer|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-6 mb-0">
+            {{ emchilgee.form.onosh|as_crispy_field }}
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Хайх</button>
+      </div>
+    </form>
+    <table class="table table-striped">
+      <thead>
+        <th> № </th>
+        <th> Эмчлүүлэгчийн нэр </th>
+        <th> Эхлэх огноо </th>
+        <th> Дуусах огноо </th>
+        <th> Онош </th>
+        <th>  </th>
+      </thead>
+      <tbody>
+        {% for items in emchilgee.qs %}
+          <tr>
+            <td> {{ forloop.counter }} </td>
+            <td> {{ items.costumer }} </td>
+            <td> {{ items.start_date | date:"Y/m/d" }} </td>
+            <td> {{ items.end_date | date:"Y/m/d" }} </td>
+            <td> {{ items.onosh }} </td>
+            <td>
+              <a href="{% url 'drug:emchilgee_details' items.id %}" class="btn btn-info btn-xs">Дэлгэрэнгүй</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
       {% if request.user.worker.is_doctor %}
       {% else %}
         <form method="get">
